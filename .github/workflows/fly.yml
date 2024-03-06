@@ -69,7 +69,7 @@ jobs:
       - name: Setup Database
         run: npm run db:migrate
         env:
-          TURSO_CONNECTION_URL: file:local.db
+          TURSO_CONNECTION_URL: "file:local.db"
 
       - name: ⚡ Run vitest
         run: npm run coverage
