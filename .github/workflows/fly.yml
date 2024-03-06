@@ -21,7 +21,7 @@ jobs:
         with:
           cache: npm
           cache-dependency-path: ./package.json
-          node-version: 21
+          node-version: 20
 
       - name: 📥 Install deps
         run: npm install
@@ -41,7 +41,7 @@ jobs:
         with:
           cache: npm
           cache-dependency-path: ./package.json
-          node-version: 21
+          node-version: 20
 
       - name: 📥 Install deps
         run: npm install
@@ -61,10 +61,15 @@ jobs:
         with:
           cache: npm
           cache-dependency-path: ./package.json
-          node-version: 21
+          node-version: 20
 
       - name: 📥 Install deps
         run: npm install
+
+      - name: Setup Database
+        run: npm run db:migrate
+        env:
+          TURSO_CONNECTION_URL: file:local.db
 
       - name: ⚡ Run vitest
         run: npm run coverage
@@ -83,7 +88,7 @@ jobs:
         with:
           cache: npm
           cache-dependency-path: ./package.json
-          node-version: 21
+          node-version: 20
 
       - name: 📥 Install deps
         run: npm install
