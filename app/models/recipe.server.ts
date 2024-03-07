@@ -64,3 +64,13 @@ export async function searchRecipes(query: string) {
     return [];
   }
 }
+
+export async function getRecipeCount() {
+  const result = await db
+    .select({
+      count: sql<number>`cast(count(${recipes.id}) as int)`,
+    })
+    .from(recipes);
+
+  return result[0].count;
+}
