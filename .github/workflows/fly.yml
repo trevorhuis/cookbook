@@ -73,6 +73,9 @@ jobs:
 
       - name: ⚡ Run vitest
         run: npm run coverage
+        env:
+          TURSO_CONNECTION_URL: "file:local.db"
+          
 
   migrate:
     name: Migrate Turso DB
