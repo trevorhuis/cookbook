@@ -39,11 +39,11 @@ export function useMatchesData(
   const route = useMemo(
     () => matchingRoutes.find((route) => route.id === id),
     [matchingRoutes, id],
-  );
-  // @ts-ignore
+  ) as any; // eslint-disable-line
   return route?.data;
 }
 
+// eslint-disable-next-line
 function isUser(user: any): user is SelectUserSchema {
   return user && typeof user === "object" && typeof user.email === "string";
 }
