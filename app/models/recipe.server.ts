@@ -31,28 +31,59 @@ export async function createRecipe(
 
 export async function getRecipeById(
   id: SelectRecipeSchema["id"],
-): Promise<InsertRecipeSchema | null> {
+): Promise<SelectRecipeSchema | null> {
   const recipe = await db.select().from(recipes).where(eq(recipes.id, id));
 
   return recipe[0];
 }
 
+export async function getRecipeBySlug(slug: string) {
+  const recipe = await db.select().from(recipes).where(eq(recipes.slug, slug));
+
+  return recipe[0];
+}
+
+export async function getRecipeSteps(id: number) {
+  return await db
+    .select()
+    .from(recipeSteps)
+    .where(eq(recipeSteps.recipeId, id))
+    .all();
+}
+
+export async function getRecipeTags(id: number) {
+  return await db
+    .select()
+    .from(recipeTags)
+    .where(eq(recipeTags.recipeId, id))
+    .all();
+}
+
+export async function getRecipeIngredients(id: number) {
+  return await db
+    .select()
+    .from(recipeIngredients)
+    .where(eq(recipeIngredients.recipeId, id))
+    .all();
+}
+
 export async function createRecipeSteps(steps: InsertRecipeStepSchema[]) {
-  await db.insert(recipeSteps).values(steps);
+  if (steps.length > 0) await db.insert(recipeSteps).values(steps);
 }
 
 export async function createRecipeIngredients(
   ingredients: InsertRecipeIngredientSchema[],
 ) {
-  await db.insert(recipeIngredients).values(ingredients);
+  if (ingredients.length > 0)
+    await db.insert(recipeIngredients).values(ingredients);
 }
 
 export async function createRecipeTags(tags: InsertRecipeTagSchema[]) {
-  await db.insert(recipeTags).values(tags);
+  if (tags.length > 0) await db.insert(recipeTags).values(tags);
 }
 
 export async function createRecipeImages(images: InsertRecipeImageSchema[]) {
-  await db.insert(recipeImages).values(images);
+  if (images.length > 0) await db.insert(recipeImages).values(images);
 }
 
 export async function searchRecipes(query: string) {
@@ -65,6 +96,16 @@ export async function searchRecipes(query: string) {
   }
 }
 
+export async function getRecipes(limit: number, offset: number) {
+  const recipesResult = await db
+    .select()
+    .from(recipes)
+    .limit(limit)
+    .offset(offset);
+
+  return recipesResult;
+}
+
 export async function getRecipeCount() {
   const result = await db
     .select({
@@ -73,4 +114,8 @@ export async function getRecipeCount() {
     .from(recipes);
 
   return result[0].count;
+}
+
+export async function deleteRecipeById(id: number) {
+  await db.delete(recipes).where(eq(recipes.id, id));
 }

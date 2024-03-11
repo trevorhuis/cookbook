@@ -1,6 +1,7 @@
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
 import { SelectUserSchema } from "./db/schema/user.server";
+import _ from "lodash";
 
 const DEFAULT_REDIRECT = "/";
 
@@ -68,4 +69,8 @@ export function useUser(): SelectUserSchema {
 
 export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
+}
+
+export function createSlug(title: string) {
+  return _.kebabCase(title);
 }
