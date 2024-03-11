@@ -1,7 +1,8 @@
+import { SelectRecipeSchema } from "~/db/schema/recipe.server";
 import RecipeBox from "./recipeBox";
 
 interface RecipeGridProps {
-  recipes: any[];
+  recipes: SelectRecipeSchema[];
 }
 
 export default function RecipeGrid(props: RecipeGridProps) {

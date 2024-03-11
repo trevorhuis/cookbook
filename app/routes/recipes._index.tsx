@@ -12,12 +12,12 @@ export async function loader() {
 }
 
 export default function RecipesPage() {
-  let { recipes, recipeCount } = useLoaderData<typeof loader>();
+  const { recipes, recipeCount } = useLoaderData<typeof loader>();
 
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
 
-    return (
+  return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Form method="post">
         <input name="page" value={page} hidden readOnly />

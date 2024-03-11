@@ -1,7 +1,8 @@
 import { Link } from "@remix-run/react";
+import { SelectRecipeSchema } from "~/db/schema/recipe.server";
 
 interface RecipeBoxProps {
-  recipe: any;
+  recipe: SelectRecipeSchema;
 }
 
 export default function RecipeBox(props: RecipeBoxProps) {
