@@ -7,7 +7,7 @@ export default function DescriptionInput(props: descriptionInputProps) {
   const { description, setDescription } = props;
 
   return (
-    <div className="sm:col-span-4">
+    <div className="col-span-full">
       <label
         htmlFor="description"
         className="block text-sm font-medium text-gray-700"
@@ -19,7 +19,7 @@ export default function DescriptionInput(props: descriptionInputProps) {
           id="description"
           name="description"
           rows={2}
-          className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);

@@ -40,9 +40,9 @@ export default function StepsInput(props: StepsInputProps) {
               <div className="flex-1">
                 <textarea
                   id="step"
-                  name="step"
+                  name={`step_${index}`}
                   rows={2}
-                  className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
                   value={step}
                   onChange={(e) => {
                     updateStep(index, e.target.value);
@@ -75,21 +75,12 @@ export default function StepsInput(props: StepsInputProps) {
           </div>
         );
       })}
-      <button className="m-2" type="button" onClick={addStep}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="h-6 w-6 rounded-md border-2 border-indigo-700"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4.5v15m7.5-7.5h-15"
-          />
-        </svg>
+      <button
+        type="button"
+        className="inline-flex items-center rounded-md border border-transparent bg-teal-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+        onClick={addStep}
+      >
+        Add
       </button>
     </div>
   );

@@ -7,7 +7,7 @@ export default function TitleInput(props: titleInputProps) {
   const { title, setTitle } = props;
 
   return (
-    <div className="sm:col-span-4">
+    <div className="col-span-full">
       <label
         htmlFor="title"
         className="block text-sm font-medium text-gray-700"
@@ -20,7 +20,7 @@ export default function TitleInput(props: titleInputProps) {
           name="title"
           id="title"
           autoComplete="given-name"
-          className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />

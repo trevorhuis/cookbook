@@ -9,7 +9,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 (async () => {
+  console.log("Migrate starting ...");
   await migrate(db, {
     migrationsFolder: resolve(__dirname, "../../migrations"),
   });
+  console.log("Migrate finished.");
 })();

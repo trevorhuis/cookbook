@@ -9,7 +9,7 @@ export default function Paginator(props: paginatorProps) {
 
   return (
     <nav
-      className="flex items-center border-gray-200 bg-white px-4 py-3 sm:px-6"
+      className="flex items-center border-gray-200 py-3"
       aria-label="Pagination"
     >
       <div className="hidden sm:block">

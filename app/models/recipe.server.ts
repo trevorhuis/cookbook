@@ -1,4 +1,4 @@
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, asc } from "drizzle-orm";
 import { db } from "~/db/db.server";
 import {
   InsertRecipeSchema,
@@ -13,6 +13,7 @@ import {
   InsertRecipeImageSchema,
   recipeImages,
 } from "~/db/schema/recipe.server";
+import { RecipeSearchArraySchema } from "~/resources/recipe.server";
 
 export async function createRecipe(
   data: InsertRecipeSchema,
@@ -23,7 +24,7 @@ export async function createRecipe(
     .returning({ insertedId: recipes.id });
 
   await db.run(
-    sql`insert into recipe_search (title, description, slug) values (${data.title}, ${data.description}, ${data.slug})`,
+    sql`insert into recipe_search (title, description, slug) values (lower(${data.title}), lower(${data.description}), lower(${data.slug}))`,
   );
 
   return recipeId[0].insertedId;
@@ -87,19 +88,24 @@ export async function createRecipeImages(images: InsertRecipeImageSchema[]) {
 }
 
 export async function searchRecipes(query: string) {
-  try {
-    const recipes = await db.run(sql`select * from recipe_search(${query})`);
-    return recipes.rows;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  const recipesResult = await db.run(
+    sql`select slug, title, description from recipe where slug in (select slug from recipe_search WHERE recipe_search MATCH lower(${query}));`, // 'chicken AND broccoli NOT cheese'
+  );
+
+  const resultRows = recipesResult.rows;
+  const parsedRows = await RecipeSearchArraySchema.parseAsync(resultRows);
+  return parsedRows;
 }
 
 export async function getRecipes(limit: number, offset: number) {
   const recipesResult = await db
-    .select()
+    .select({
+      slug: recipes.slug,
+      title: recipes.title,
+      description: recipes.description,
+    })
     .from(recipes)
+    .orderBy(asc(recipes.id)) // order by is mandatory
     .limit(limit)
     .offset(offset);
 
@@ -118,4 +124,15 @@ export async function getRecipeCount() {
 
 export async function deleteRecipeById(id: number) {
   await db.delete(recipes).where(eq(recipes.id, id));
+}
+
+export async function getRandomRecipes(count: number) {
+  const result = await db
+    .select()
+    .from(recipes)
+    .orderBy(sql`RANDOM()`)
+    .limit(count)
+    .all();
+
+  return result;
 }

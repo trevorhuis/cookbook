@@ -58,6 +58,75 @@ const Recipe = () => {
   }
 
   return (
+    <div className="mx-auto max-w-4xl mt-16">
+      <h1 className="text-4xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
+        {data.recipe.title}
+      </h1>
+      <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl md:col-span-2">
+        <div className="p-4">
+          <p className="text-xl leading-8 text-teal-700 font-bold">
+            Description
+          </p>
+          <p className="text-md leading-8 text-gray-700 my-4">
+            {data.recipe.description}
+          </p>
+          <div className="grid md:grid-cols-2 border-t-2">
+            <div className="grid-span-1 p-4">
+              <p className="text-xl leading-8 text-teal-700 font-bold">
+                Ingredients
+              </p>
+
+              <ul className="list-inside list-disc">
+                {data.ingredients.map((ingredient, index: number) => (
+                  <li key={index} className="p-1 text-gray-900">
+                    {ingredient.ingredient}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="grid-span-2 p-4">
+              <p className="text-xl leading-8 text-teal-700 font-bold">Steps</p>
+              <ol className="list-inside list-decimal">
+                {data.steps.map((step, index: number) => (
+                  <li key={index} className="p-1 text-gray-900">
+                    {step.step}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          <Form method="POST">
+            {isOwner && (
+              <div className="flex items-center justify-end gap-x-2 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+                <Link
+                  className="m-2 inline-flex items-center rounded-md border border-transparent bg-gray-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+                  to={`/recipes/edit/${data.recipe.slug}`}
+                >
+                  Edit
+                </Link>
+                <button
+                  type="button"
+                  className="m-2 inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+                  onClick={() => setOpenDelete(true)}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+            <DeleteRecipeModal
+              open={openDelete}
+              setOpen={setOpenDelete}
+              itemToDelete={"Recipe"}
+              handleDelete={handleDelete}
+            />
+          </Form>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
     <div className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex content-center justify-start space-x-2">
         <p className="text-4xl font-bold text-gray-900">{data.recipe.title}</p>
@@ -90,7 +159,7 @@ const Recipe = () => {
           data.tags.map((tag, index: number) => (
             <div
               key={index}
-              className="text-md flex-initial rounded-lg bg-indigo-100 p-2 text-center font-medium text-indigo-800 shadow-sm"
+              className="text-md flex-initial rounded-lg bg-teal-100 p-2 text-center font-medium text-teal-800 shadow-sm"
             >
               {tag.tag}
             </div>
@@ -135,14 +204,14 @@ const Recipe = () => {
       {isOwner && (
         <div className="flex">
           <Link
-            className="m-2 inline-flex items-center rounded-md border border-transparent bg-gray-400 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="m-2 inline-flex items-center rounded-md border border-transparent bg-gray-400 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
             to={`/recipes/edit/${data.recipe.slug}`}
           >
             Edit
           </Link>
           <button
             type="button"
-            className="m-2 inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="m-2 inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
             onClick={() => setOpenDelete(true)}
           >
             Delete

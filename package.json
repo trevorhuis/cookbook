@@ -12,7 +12,9 @@
     "test": "vitest",
     "coverage": "vitest --run --coverage --coverage.exclude='build/**' --coverage.exclude='**/*.config.*s' --coverage.exclude='**/.eslintrc.cjs'",
     "typecheck": "tsc",
-    "db:migrate": "npx tsx app/db/migrate.server.ts"
+    "db:migrate": "npx tsx app/db/migrate.server.ts",
+    "db:seed": "npx tsx app/db/seed.server.ts",
+    "db:new": "rm local.db || true && npm run db:migrate && npm run db:seed"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",

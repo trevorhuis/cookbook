@@ -15,6 +15,7 @@ import {
   createRecipeIngredients,
   createRecipeSteps,
   createRecipeTags,
+  deleteRecipeById,
   getRecipeBySlug,
   getRecipeIngredients,
   getRecipeSteps,
@@ -22,15 +23,27 @@ import {
 } from "~/models/recipe.server";
 import { createSlug } from "~/utils";
 
-export const SaveRecipe = z.object({
+export type SaveRecipe = {
+  title: string;
+  description: string;
+  tags: string[];
+  steps: string[];
+  ingredients: string[];
+  prepTime: string | null;
+  cookTime: string | null;
+  servings: string | null;
+};
+
+const RecipeSearchSchema = z.object({
+  slug: z.string(),
   title: z.string(),
   description: z.string(),
-  steps: z.array(z.string()),
-  tags: z.array(z.string()),
-  ingredients: z.array(z.string()),
 });
 
-export async function saveRecipe(recipe: z.infer<typeof SaveRecipe>) {
+export const RecipeSearchArraySchema = z.array(RecipeSearchSchema);
+type RecipeSearchArraySchema = z.infer<typeof RecipeSearchArraySchema>;
+
+export async function saveRecipe(recipe: SaveRecipe) {
   const recipeInsert: InsertRecipeSchema = {
     description: recipe.description,
     slug: createSlug(recipe.title),
@@ -78,7 +91,13 @@ export async function saveRecipe(recipe: z.infer<typeof SaveRecipe>) {
   await createRecipeIngredients(recipeIngredients);
   //   await createRecipeImages(recipeImages);
 
-  return recipeId;
+  return { recipeId, slug: recipeInsert.slug };
+}
+
+export async function updateRecipe(recipeId: number, recipe: SaveRecipe) {
+  await deleteRecipeById(recipeId);
+
+  return await saveRecipe(recipe);
 }
 
 export async function getRecipeBySlugWithDetails(

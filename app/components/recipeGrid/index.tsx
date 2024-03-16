@@ -1,20 +1,20 @@
-import { SelectRecipeSchema } from "~/db/schema/recipe.server";
 import RecipeBox from "./recipeBox";
 
 interface RecipeGridProps {
-  recipes: SelectRecipeSchema[];
+  recipes: {
+    slug: string;
+    title: string;
+    description: string;
+  }[];
 }
 
 export default function RecipeGrid(props: RecipeGridProps) {
   const { recipes } = props;
 
   return (
-    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {recipes.map((recipe, idx) => (
-        <li
-          key={idx}
-          className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow"
-        >
+        <li key={idx} className=" rounded-lg bg-white shadow">
           <RecipeBox recipe={recipe} />
         </li>
       ))}

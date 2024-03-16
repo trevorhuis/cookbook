@@ -5,7 +5,7 @@ import {
   IngredientsInput,
   StepsInput,
   TitleInput,
-} from "~/components/forms";
+} from "~/components/recipeForm";
 import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
@@ -126,7 +126,7 @@ export default function CreateRecipePage() {
                 type="submit"
                 name="_action"
                 value="cancel"
-                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                 onClick={() => redirect("/recipes")}
               >
                 Cancel
@@ -136,7 +136,7 @@ export default function CreateRecipePage() {
                 name="_action"
                 value="save"
                 disabled={isSaveDisabled}
-                className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-600"
+                className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:bg-gray-600"
               >
                 Save
               </button>

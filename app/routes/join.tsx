@@ -104,8 +104,11 @@ export default function Join() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center mt-8">
-      <div className="mx-auto w-full max-w-md px-8">
+    <div className="mx-auto max-w-2xl py-18 sm:py-24 lg:py-32">
+      <div className="mx-auto w-full max-w-lg px-8">
+        <h1 className="text-6xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl mb-8">
+          {`Crystal's Cookbook`}
+        </h1>
         <Form method="post" className="space-y-6">
           <div>
             <label
@@ -124,7 +127,7 @@ export default function Join() {
                 autoComplete="email"
                 aria-invalid={actionData?.errors?.email ? true : undefined}
                 aria-describedby="email-error"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+                className="w-full rounded border border-teal-500 px-2 py-1 text-lg"
               />
               {actionData?.errors?.email ? (
                 <div className="pt-1 text-red-700" id="email-error">
@@ -150,7 +153,7 @@ export default function Join() {
                 autoComplete="new-password"
                 aria-invalid={actionData?.errors?.password ? true : undefined}
                 aria-describedby="password-error"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+                className="w-full rounded border border-teal-500 px-2 py-1 text-lg"
               />
               {actionData?.errors?.password ? (
                 <div className="pt-1 text-red-700" id="password-error">
@@ -163,7 +166,7 @@ export default function Join() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
-            className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
+            className="w-full rounded bg-teal-500 px-4 py-2 text-white hover:bg-teal-600 focus:bg-teal-400"
           >
             Create Account
           </button>
@@ -171,7 +174,7 @@ export default function Join() {
             <div className="text-center text-sm text-gray-500">
               Already have an account?{" "}
               <Link
-                className="text-blue-500 underline"
+                className="text-teal-500 underline"
                 to={{
                   pathname: "/login",
                   search: searchParams.toString(),
