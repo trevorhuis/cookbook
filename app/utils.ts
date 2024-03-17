@@ -79,7 +79,7 @@ export function createSlug(title: string) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function recipeFormValidator(values: any) {
   let recipeId = null;
-  let errors: string[] = [];
+  const errors: string[] = [];
 
   const ingredients = [];
   const tags = [];

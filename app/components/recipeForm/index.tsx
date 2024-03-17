@@ -6,7 +6,7 @@ import {
   TagsInput,
   TitleInput,
   ServingsInput,
-  ImagesInput,
+  // ImagesInput,
 } from "./inputs";
 import CookTimeInput from "./inputs/cookTimeInput";
 import PrepTimeInput from "./inputs/prepTimeInput";
@@ -52,8 +52,8 @@ export default function RecipeForm(props: RecipeFormProps) {
     setIngredients,
     steps,
     setSteps,
-    imageUrls,
-    setImageUrls,
+    // imageUrls,
+    // setImageUrls,
   } = props;
 
   return (
