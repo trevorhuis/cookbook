@@ -64,6 +64,9 @@ export default function EditRecipePage() {
   const [steps, setSteps] = useState<string[]>(
     data.steps.map((step) => step.step),
   );
+  const [imageUrls, setImageUrls] = useState<string[]>(
+    data.images.map((image) => image.url),
+  );
 
   return (
     <div className="mx-auto max-w-2xl mt-16">
@@ -89,6 +92,8 @@ export default function EditRecipePage() {
         setIngredients={setIngredients}
         steps={steps}
         setSteps={setSteps}
+        imageUrls={imageUrls}
+        setImageUrls={setImageUrls}
       />
     </div>
   );

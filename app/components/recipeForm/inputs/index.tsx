@@ -4,7 +4,7 @@ import StepsInput from "./stepsInput";
 import IngredientsInput from "./ingredientsInput";
 import TagsInput from "./tagsInput";
 import ServingsInput from "./servingsInput";
-// import ImagesInput from "./imagesInput";
+import ImagesInput from "./imagesInput";
 
 export {
   DescriptionInput,
@@ -13,5 +13,5 @@ export {
   StepsInput,
   IngredientsInput,
   ServingsInput,
-  //   ImagesInput
+  ImagesInput,
 };

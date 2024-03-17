@@ -7,3 +7,8 @@ test("create new recipe and find by id", async () => {
   const slug = createSlug(title);
   expect(slug).toBe("cranberry-sauce");
 });
+
+test("error", async () => {
+  const result = parseInt("hello");
+  expect(result).toBe(NaN);
+});

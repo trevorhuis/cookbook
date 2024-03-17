@@ -79,12 +79,15 @@ export function createSlug(title: string) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function recipeFormValidator(values: any) {
   let recipeId = null;
-  const errors: string[] = [];
+  let errors: string[] = [];
 
   const ingredients = [];
   const tags = [];
-
   const steps = [];
+  let images: string[] = [];
+  let cookTime: number | null = null;
+  let prepTime: number | null = null;
+  let servings: number | null = null;
 
   for (const property in values) {
     const key = property as string;
@@ -95,15 +98,36 @@ export function recipeFormValidator(values: any) {
     if (inputs[0] === "step") steps.push(value);
   }
 
+  try {
+    images = JSON.parse(values.imageUrls as string) as string[];
+  } catch {
+    console.log("unable to parse images");
+  }
+
   if (values.recipe_id !== undefined) {
     recipeId = parseInt(values.recipe_id as string);
   }
 
   const title = values.title as string;
   const description = values.description as string;
-  const prepTime = values.prep_time as string;
-  const cookTime = values.cook_time as string;
-  const servings = values.servings as string;
+
+  if ((values.prepTime as string) !== "") {
+    const prepTimeParsed = parseInt(values.prep_time as string);
+    if (isNaN(prepTimeParsed)) errors.push("Prep Time must be an integer.");
+    else prepTime = prepTimeParsed;
+  }
+
+  if ((values.cookTime as string) !== "") {
+    const cookTimeParsed = parseInt(values.cookTime as string);
+    if (isNaN(cookTimeParsed)) errors.push("Cook Time must be an integer.");
+    else cookTime = cookTimeParsed;
+  }
+
+  if ((values.servings as string) !== "") {
+    const servingsParsed = parseInt(values.servings as string);
+    if (isNaN(servingsParsed)) errors.push("Servings must be an integer.");
+    else servings = servingsParsed;
+  }
 
   // Form Validation
   if (ingredients.length === 0 || ingredients[0] === "")
@@ -125,6 +149,7 @@ export function recipeFormValidator(values: any) {
     prepTime,
     cookTime,
     servings,
+    images,
   };
 
   return { recipeId, recipe, errors };

@@ -68,6 +68,14 @@ export async function getRecipeIngredients(id: number) {
     .all();
 }
 
+export async function getRecipeImages(id: number) {
+  return await db
+    .select()
+    .from(recipeImages)
+    .where(eq(recipeImages.id, id))
+    .all();
+}
+
 export async function createRecipeSteps(steps: InsertRecipeStepSchema[]) {
   if (steps.length > 0) await db.insert(recipeSteps).values(steps);
 }

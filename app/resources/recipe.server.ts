@@ -1,10 +1,12 @@
 import { z } from "zod";
 import dayjs from "dayjs";
 import {
+  InsertRecipeImageSchema,
   InsertRecipeIngredientSchema,
   InsertRecipeSchema,
   InsertRecipeStepSchema,
   InsertRecipeTagSchema,
+  SelectRecipeImageSchema,
   SelectRecipeIngredientSchema,
   SelectRecipeSchema,
   SelectRecipeStepSchema,
@@ -12,11 +14,13 @@ import {
 } from "~/db/schema/recipe.server";
 import {
   createRecipe,
+  createRecipeImages,
   createRecipeIngredients,
   createRecipeSteps,
   createRecipeTags,
   deleteRecipeById,
   getRecipeBySlug,
+  getRecipeImages,
   getRecipeIngredients,
   getRecipeSteps,
   getRecipeTags,
@@ -29,9 +33,10 @@ export type SaveRecipe = {
   tags: string[];
   steps: string[];
   ingredients: string[];
-  prepTime: string | null;
-  cookTime: string | null;
-  servings: string | null;
+  images: string[];
+  prepTime: number | null;
+  cookTime: number | null;
+  servings: number | null;
 };
 
 const RecipeSearchSchema = z.object({
@@ -48,6 +53,9 @@ export async function saveRecipe(recipe: SaveRecipe) {
     description: recipe.description,
     slug: createSlug(recipe.title),
     title: recipe.title,
+    prepTime: recipe.prepTime,
+    cookTime: recipe.cookTime,
+    servings: recipe.servings,
   };
 
   const recipeId = await createRecipe(recipeInsert);
@@ -80,16 +88,19 @@ export async function saveRecipe(recipe: SaveRecipe) {
     },
   );
 
-  //   const recipeImages = recipe.images.map((url: string): InsertRecipeImageSchema => {
-  //     return {
-  //         recipeId,
-  //         url
-  //     }
-  //   })
+  const recipeImages = recipe.images.map(
+    (url: string): InsertRecipeImageSchema => {
+      return {
+        recipeId,
+        url,
+      };
+    },
+  );
+
   await createRecipeTags(recipeTags);
   await createRecipeSteps(recipeSteps);
   await createRecipeIngredients(recipeIngredients);
-  //   await createRecipeImages(recipeImages);
+  await createRecipeImages(recipeImages);
 
   return { recipeId, slug: recipeInsert.slug };
 }
@@ -107,15 +118,17 @@ export async function getRecipeBySlugWithDetails(
   steps: SelectRecipeStepSchema[];
   tags: SelectRecipeTagSchema[];
   ingredients: SelectRecipeIngredientSchema[];
+  images: SelectRecipeImageSchema[];
 } | null> {
   const recipe = await getRecipeBySlug(slug);
 
   recipe.updatedAt = dayjs(recipe.updatedAt).format("MMMM DD, YYYY");
 
-  const [steps, tags, ingredients] = await Promise.all([
+  const [steps, tags, ingredients, images] = await Promise.all([
     getRecipeSteps(recipe.id),
     getRecipeTags(recipe.id),
     getRecipeIngredients(recipe.id),
+    getRecipeImages(recipe.id),
   ]);
 
   return {
@@ -123,5 +136,6 @@ export async function getRecipeBySlugWithDetails(
     steps,
     tags,
     ingredients,
+    images,
   };
 }

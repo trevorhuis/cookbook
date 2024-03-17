@@ -46,6 +46,7 @@ export default function CreateRecipePage() {
   const [tags, setTags] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const [steps, setSteps] = useState<string[]>([""]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   return (
     <div className="mx-auto max-w-2xl mt-16">
@@ -71,6 +72,8 @@ export default function CreateRecipePage() {
         setIngredients={setIngredients}
         steps={steps}
         setSteps={setSteps}
+        imageUrls={imageUrls}
+        setImageUrls={setImageUrls}
       />
     </div>
   );
