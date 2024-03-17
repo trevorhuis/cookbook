@@ -23,10 +23,6 @@ export async function createRecipe(
     .values(data)
     .returning({ insertedId: recipes.id });
 
-  await db.run(
-    sql`insert into recipe_search (title, description, slug) values (lower(${data.title}), lower(${data.description}), lower(${data.slug}))`,
-  );
-
   return recipeId[0].insertedId;
 }
 
@@ -97,7 +93,7 @@ export async function createRecipeImages(images: InsertRecipeImageSchema[]) {
 
 export async function searchRecipes(query: string) {
   const recipesResult = await db.run(
-    sql`select slug, title, description from recipe where slug in (select slug from recipe_search WHERE recipe_search MATCH lower(${query}));`, // 'chicken AND broccoli NOT cheese'
+    sql`select slug, title, description from recipe where slug in (select slug from recipe_search WHERE recipe_search MATCH lower(${query}));`,
   );
 
   const resultRows = recipesResult.rows;
