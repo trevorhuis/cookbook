@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import { db } from "~/db/db.server";
+import { db } from "~/.server/db/db";
 import {
   users,
   SelectUserSchema,
   InsertUserSchema,
-} from "~/db/schema/user.server";
+} from "~/.server/db/schema/user.server";
 
 export async function createUser(
   data: InsertUserSchema,

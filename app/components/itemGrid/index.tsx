@@ -1,21 +1,21 @@
-import RecipeBox from "./recipeBox";
+import ItemBox from "./itemBox";
 
-interface RecipeGridProps {
-  recipes: {
+interface ItemGridProps {
+  items: {
     slug: string;
     title: string;
     description: string;
   }[];
 }
 
-export default function RecipeGrid(props: RecipeGridProps) {
-  const { recipes } = props;
+export default function ItemGrid(props: ItemGridProps) {
+  const { items } = props;
 
   return (
     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-      {recipes.map((recipe, idx) => (
+      {items.map((item, idx) => (
         <li key={idx} className=" rounded-lg bg-white shadow">
-          <RecipeBox recipe={recipe} />
+          <ItemBox item={item} />
         </li>
       ))}
     </ul>

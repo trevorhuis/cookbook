@@ -2,7 +2,7 @@ import { ActionFunctionArgs } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import Paginator from "~/components/paginator";
-import RecipeGrid from "~/components/recipeGrid";
+import ItemGrid from "~/components/itemGrid";
 import SearchBar from "~/components/searchBar";
 import {
   getRecipeCount,
@@ -56,7 +56,7 @@ export default function RecipesPage() {
         {recipeCount > 0 && (
           <>
             <div className="mt-6 py-4">
-              <RecipeGrid recipes={recipes} />
+              <ItemGrid items={recipes} />
             </div>
 
             {searchText === "" && recipes.length > 0 && (

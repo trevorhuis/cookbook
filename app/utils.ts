@@ -1,6 +1,6 @@
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
-import { SelectUserSchema } from "./db/schema/user.server";
+import { SelectUserSchema } from "./.server/db/schema/user.server";
 import _ from "lodash";
 import { SaveRecipe } from "./resources/recipe.server";
 

@@ -11,7 +11,7 @@ import {
   SelectRecipeSchema,
   SelectRecipeStepSchema,
   SelectRecipeTagSchema,
-} from "~/db/schema/recipe.server";
+} from "~/.server/db/schema/recipe.server";
 import {
   createRecipe,
   createRecipeImages,

@@ -1,5 +1,5 @@
 import { eq, sql, asc } from "drizzle-orm";
-import { db } from "~/db/db.server";
+import { db } from "~/.server/db/db";
 import {
   InsertRecipeSchema,
   InsertRecipeStepSchema,
@@ -12,7 +12,7 @@ import {
   recipeTags,
   InsertRecipeImageSchema,
   recipeImages,
-} from "~/db/schema/recipe.server";
+} from "~/.server/db/schema/recipe.server";
 import { RecipeSearchArraySchema } from "~/resources/recipe.server";
 
 export async function createRecipe(

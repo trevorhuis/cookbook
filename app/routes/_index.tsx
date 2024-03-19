@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import RecipeGrid from "~/components/recipeGrid";
+import ItemGrid from "~/components/itemGrid";
 import { getRandomRecipes } from "~/models/recipe.server";
 
 export const meta: MetaFunction = () => {
@@ -33,7 +33,7 @@ export default function Index() {
         </h1>
       </div>
       <div className="mt-8">
-        <RecipeGrid recipes={recipes} />
+        <ItemGrid items={recipes} />
       </div>
     </div>
   );

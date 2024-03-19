@@ -2,7 +2,7 @@ import { createSlug } from "~/utils";
 import {
   InsertRecipeIngredientSchema,
   InsertRecipeStepSchema,
-} from "~/db/schema/recipe.server";
+} from "~/.server/db/schema/recipe.server";
 import {
   createRecipe,
   createRecipeIngredients,
