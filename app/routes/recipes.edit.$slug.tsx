@@ -8,19 +8,14 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import RecipeForm from "~/components/recipeForm";
 import RecipeFormError from "~/components/recipeForm/recipeFormError";
-import {
-  getRecipeBySlugWithDetails,
-  updateRecipe,
-} from "~/resources/recipe.server";
-import { requireUserId } from "~/session.server";
-import { recipeFormValidator } from "~/utils";
+import Server from "~/server";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
-  await requireUserId(request);
+  await Server.authUseCase.requireUserId(request);
 
   const slug = params.slug as string;
 
-  const data = await getRecipeBySlugWithDetails(slug);
+  const data = await Server.recipeUseCase.getFullRecipe(slug);
 
   if (!data) return redirect("/recipes");
 
@@ -29,11 +24,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const { _action, ...values } = Object.fromEntries(formData);
+  const _action = formData.get("_action");
 
   if (_action == "cancel") return redirect("/recipes");
 
-  const { recipeId, recipe, errors } = recipeFormValidator(values);
+  const { recipeId, recipe, errors } =
+    Server.recipeUseCase.recipeFormValidator(formData);
 
   if (recipeId === null) errors.push("Recipe not found to update.");
 
@@ -41,9 +37,18 @@ export async function action({ request }: ActionFunctionArgs) {
     return json({ errors });
   }
 
-  const result = await updateRecipe(recipeId!, recipe);
-  if (result === null) return redirect("/recipes");
-  return redirect(`/recipes/${result.slug}`);
+  const { success, recipeSlug } = await Server.recipeUseCase.updateRecipe(
+    recipeId!,
+    recipe,
+  );
+
+  if (success === false) {
+    return json({
+      errors: ["Error saving recipe to our database."],
+    });
+  }
+
+  return redirect(`/recipes/${recipeSlug}`);
 }
 
 export default function EditRecipePage() {
@@ -64,13 +69,13 @@ export default function EditRecipePage() {
   const [steps, setSteps] = useState<string[]>(
     data.steps.map((step) => step.step),
   );
-  const [imageUrls, setImageUrls] = useState<string[]>(
-    data.images.map((image) => image.url),
-  );
+  // const [imageUrls, setImageUrls] = useState<string[]>(
+  //   data.images.map((image) => image.url),
+  // );
 
   return (
-    <div className="mx-auto max-w-2xl mt-16">
-      <h1 className="text-6xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
+    <div className="mx-auto mt-16 max-w-2xl">
+      <h1 className="mb-4 text-center text-6xl font-bold tracking-tight text-gray-900 sm:text-4xl">
         {title}
       </h1>
       {actionData?.errors && <RecipeFormError errors={actionData?.errors} />}
@@ -92,8 +97,8 @@ export default function EditRecipePage() {
         setIngredients={setIngredients}
         steps={steps}
         setSteps={setSteps}
-        imageUrls={imageUrls}
-        setImageUrls={setImageUrls}
+        // imageUrls={imageUrls}
+        // setImageUrls={setImageUrls}
       />
     </div>
   );

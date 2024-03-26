@@ -7,17 +7,17 @@ import {
   json,
   useLoaderData,
 } from "@remix-run/react";
-import styles from "~/styles/tailwind.css?url";
-import { getUser } from "./session.server";
+import styles from "~/tailwind.css?url";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import NavBar from "./components/NavBar";
+import Server from "./server";
 
 export const links = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  return json({ user: await getUser(request) });
+  return json({ user: await Server.authUseCase.getUserFromRequest(request) });
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {

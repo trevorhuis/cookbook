@@ -15,20 +15,6 @@
       "when": 1709765810363,
       "tag": "0001_wandering_supernaut",
       "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1710888757311,
-      "tag": "0002_lazy_celestials",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1710888816978,
-      "tag": "0003_superb_mikhail_rasputin",
-      "breakpoints": true
     }
   ]
 }

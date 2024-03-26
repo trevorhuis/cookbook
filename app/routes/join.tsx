@@ -6,14 +6,12 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { InsertUserSchema } from "~/.server/db/schema/user.server";
-
-import { createUser, getUserByEmail } from "~/models/user.server";
-import { createUserSession, getUserId } from "~/session.server";
-import { safeRedirect, validateEmail } from "~/utils";
+import Server from "~/server";
+import { InsertUserSchema } from "~/server/users/user.dataclass";
+import { safeRedirect } from "~/utils";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const userId = await getUserId(request);
+  const userId = await Server.authUseCase.getUserId(request);
   if (userId) return redirect("/");
   return json({});
 }
@@ -24,7 +22,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const password = formData.get("password");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
-  if (!validateEmail(email)) {
+  if (!Server.authUseCase.validateEmail(email)) {
     return json(
       { errors: { email: "Email is invalid", password: null } },
       { status: 400 },
@@ -45,7 +43,7 @@ export async function action({ request }: ActionFunctionArgs) {
     );
   }
 
-  const existingUser = await getUserByEmail(email);
+  const existingUser = await Server.usersUseCase.getUserByEmail(email);
   if (existingUser) {
     return json(
       {
@@ -64,7 +62,7 @@ export async function action({ request }: ActionFunctionArgs) {
     userType: "USER",
   };
 
-  const userId = await createUser(userInsert);
+  const userId = await Server.usersUseCase.createUser(userInsert);
 
   if (!userId) {
     return json(
@@ -78,7 +76,7 @@ export async function action({ request }: ActionFunctionArgs) {
     );
   }
 
-  return createUserSession({
+  return Server.authUseCase.createUserSession({
     redirectTo,
     remember: false,
     request,
@@ -104,9 +102,9 @@ export default function Join() {
   }, [actionData]);
 
   return (
-    <div className="mx-auto max-w-2xl py-18 sm:py-24 lg:py-32">
+    <div className="py-18 mx-auto max-w-2xl sm:py-24 lg:py-32">
       <div className="mx-auto w-full max-w-lg px-8">
-        <h1 className="text-6xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl mb-8">
+        <h1 className="mb-8 text-center text-6xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           {`Crystal's Cookbook`}
         </h1>
         <Form method="post" className="space-y-6">

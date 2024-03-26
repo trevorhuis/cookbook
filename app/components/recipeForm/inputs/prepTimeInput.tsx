@@ -9,7 +9,7 @@ export default function PrepTimeInput(props: PrepTimeInputProps) {
     <div className="sm:col-span-2">
       <label
         htmlFor="prepTime"
-        className="block text-md font-medium leading-6 text-gray-900"
+        className="text-md block font-medium leading-6 text-gray-900"
       >
         {`Prep Time (optional)`}
       </label>

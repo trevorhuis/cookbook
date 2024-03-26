@@ -6,33 +6,38 @@ import {
 } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import { useState } from "react";
-import { requireUserId } from "~/session.server";
-import { saveRecipe } from "~/resources/recipe.server";
-import { recipeFormValidator } from "~/utils";
 import RecipeForm from "~/components/recipeForm";
 import RecipeFormError from "~/components/recipeForm/recipeFormError";
+import Server from "~/server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  await requireUserId(request);
+  await Server.authUseCase.requireUserId(request);
 
   return {};
 }
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const { _action, ...values } = Object.fromEntries(formData);
+  const _action = formData.get("_action");
 
   if (_action == "cancel") return redirect("/recipes");
 
-  const { recipe, errors } = recipeFormValidator(values);
+  const { recipe, errors } = Server.recipeUseCase.recipeFormValidator(formData);
 
   if (errors.length > 0) {
     return json({ errors });
   }
 
-  const result = await saveRecipe(recipe);
-  if (result === null) return redirect("/recipes");
-  return redirect(`/recipes/${result.slug}`);
+  const { success, recipeSlug } =
+    await Server.recipeUseCase.createRecipe(recipe);
+
+  if (success === false) {
+    return json({
+      errors: ["Error saving recipe to our database."],
+    });
+  }
+
+  return redirect(`/recipes/${recipeSlug}`);
 }
 
 export default function CreateRecipePage() {
@@ -46,11 +51,11 @@ export default function CreateRecipePage() {
   const [tags, setTags] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const [steps, setSteps] = useState<string[]>([""]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  // const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   return (
-    <div className="mx-auto max-w-2xl mt-16">
-      <h1 className="text-6xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
+    <div className="mx-auto mt-16 max-w-2xl">
+      <h1 className="mb-4 text-center text-6xl font-bold tracking-tight text-gray-900 sm:text-4xl">
         Your Next Masterpiece
       </h1>
       {actionData?.errors && <RecipeFormError errors={actionData?.errors} />}
@@ -72,8 +77,8 @@ export default function CreateRecipePage() {
         setIngredients={setIngredients}
         steps={steps}
         setSteps={setSteps}
-        imageUrls={imageUrls}
-        setImageUrls={setImageUrls}
+        // imageUrls={imageUrls}
+        // setImageUrls={setImageUrls}
       />
     </div>
   );

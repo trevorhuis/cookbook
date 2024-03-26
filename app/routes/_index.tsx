@@ -1,17 +1,17 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import ItemGrid from "~/components/itemGrid";
-import { getRandomRecipes } from "~/models/recipe.server";
+import Server from "~/server";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Crytal's Cookbook" },
-    { name: "description", content: "Welcome to Remix!" },
+    { name: "description", content: "Crystal's Cookbook Homepage" },
   ];
 };
 
 export async function loader() {
-  const recipes = await getRandomRecipes(8);
+  const recipes = await Server.recipeUseCase.getRandomRecipes(8);
 
   return recipes;
 }
@@ -28,7 +28,7 @@ export default function Index() {
         <p className="mt-6 text-lg leading-8 text-gray-600">
           {`Explore fantastic recipes from world-class chef Crystal Huis in 't Veld.`}
         </p>
-        <h1 className="text-2xl mt-8 font-bold tracking-tight text-gray-900 sm:text-2xl">
+        <h1 className="mt-8 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
           Some of the Collection
         </h1>
       </div>

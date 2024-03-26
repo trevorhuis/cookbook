@@ -12,7 +12,7 @@ export default function ItemBox(props: ItemBoxProps) {
   const { item } = props;
 
   return (
-    <Link to={`/items/${item.slug}`}>
+    <Link to={`/recipes/${item.slug}`}>
       <div className="flex flex-1 flex-col p-6 min-h-32 shadow-2xl">
         <p className="text-lg font-medium text-gray-900 border-b-2 pb-2">
           {item.title}

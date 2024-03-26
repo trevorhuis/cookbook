@@ -4,15 +4,11 @@ import { useState } from "react";
 import Paginator from "~/components/paginator";
 import ItemGrid from "~/components/itemGrid";
 import SearchBar from "~/components/searchBar";
-import {
-  getRecipeCount,
-  getRecipes,
-  searchRecipes,
-} from "~/models/recipe.server";
+import Server from "~/server";
 
 export async function loader() {
-  const recipes = await getRecipes(8, 0);
-  const recipeCount = await getRecipeCount();
+  const recipes = await Server.recipeUseCase.getPaginatedRecipes(8, 0);
+  const recipeCount = await Server.recipeUseCase.getRecipeCount();
   return { recipes, recipeCount };
 }
 
@@ -23,13 +19,15 @@ export async function action({ request }: ActionFunctionArgs) {
   const skip = (parseInt(values.page as string) - 1) * 8;
 
   if (values.searchText === "") {
-    const recipes = await getRecipes(8, skip);
-    const recipeCount = await getRecipeCount();
+    const recipes = await Server.recipeUseCase.getPaginatedRecipes(8, skip);
+    const recipeCount = await Server.recipeUseCase.getRecipeCount();
 
     return { recipes, recipeCount, shouldShowPaginator: true };
   }
 
-  const recipes = await searchRecipes(values.searchText as string);
+  const recipes = await Server.recipeUseCase.searchRecipes(
+    values.searchText as string,
+  );
   return { recipes, recipeCount: 1, shouldShowPaginator: false };
 }
 
@@ -46,7 +44,7 @@ export default function RecipesPage() {
   const [searchText, setSearchText] = useState("");
 
   return (
-    <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 mt-24">
+    <div className="mx-auto mt-24 max-w-4xl px-4 sm:px-6 lg:px-8">
       <Form method="post">
         <input name="page" value={page} hidden readOnly />
         <input name="searchText" value={searchText} hidden readOnly />

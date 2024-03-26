@@ -1,6 +1,6 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { getRecipeCount } from "~/models/recipe.server";
+import Server from "~/server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const host =
@@ -11,7 +11,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     // if we can connect to the database and make a simple query
     // and make a HEAD request to ourselves, then we're good.
     await Promise.all([
-      getRecipeCount(),
+      Server.recipeUseCase.getRecipeCount(),
       fetch(url.toString(), { method: "HEAD" }).then((r) => {
         if (!r.ok) return Promise.reject(r);
       }),

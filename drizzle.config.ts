@@ -6,12 +6,11 @@ dotenv.config({
 });
 
 export default {
-  schema: "./app/.server/db/schema/*",
+  schema: "./app/server/db/schema/*",
   out: "./migrations",
   driver: "turso",
   dbCredentials: {
     url: process.env.TURSO_CONNECTION_URL!,
     authToken: process.env.TURSO_AUTH_TOKEN!,
   },
-  breakpoints: true
 } satisfies Config;

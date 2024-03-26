@@ -6,13 +6,12 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import Server from "~/server";
 
-import { verifyLogin } from "~/models/user.server";
-import { createUserSession, getUserId } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const userId = await getUserId(request);
+  const userId = await Server.authUseCase.getUserId(request);
   if (userId) return redirect("/");
   return json({});
 }
@@ -46,9 +45,8 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   try {
-    const user = await verifyLogin(email, password);
-
-    return createUserSession({
+    const user = await Server.authUseCase.verifyLogin(email, password);
+    return Server.authUseCase.createUserSession({
       redirectTo,
       remember: remember === "on" ? true : false,
       request,
@@ -80,9 +78,9 @@ export default function LoginPage() {
   }, [actionData]);
 
   return (
-    <div className="mx-auto max-w-2xl py-18 sm:py-24 lg:py-32">
+    <div className="py-18 mx-auto max-w-2xl sm:py-24 lg:py-32">
       <div className="mx-auto w-full max-w-lg px-8">
-        <h1 className="text-6xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl mb-8">
+        <h1 className="mb-8 text-center text-6xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           {`Crystal's Cookbook`}
         </h1>
         <Form method="post" className="space-y-6">
