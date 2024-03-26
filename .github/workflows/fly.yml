@@ -75,6 +75,7 @@ jobs:
         run: npm run coverage
         env:
           TURSO_CONNECTION_URL: "file:local.db"
+          SESSION_SECRET: "secret"
 
   migrate:
     name: Migrate Turso DB

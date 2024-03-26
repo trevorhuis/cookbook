@@ -62,9 +62,9 @@ export async function action({ request }: ActionFunctionArgs) {
     userType: "USER",
   };
 
-  const userId = await Server.usersUseCase.createUser(userInsert);
+  const { success, userId } = await Server.usersUseCase.createUser(userInsert);
 
-  if (!userId) {
+  if (!success || !userId) {
     return json(
       {
         errors: {

@@ -86,10 +86,7 @@ test("verify login fail bad password", async () => {
 
   await userUserCase.createUser(newUser);
 
-  const { success } = await authUseCase.verifyLogin(
-    newUser.email,
-    "wrong",
-  );
+  const { success } = await authUseCase.verifyLogin(newUser.email, "wrong");
 
   expect(success).toBe(false);
 });

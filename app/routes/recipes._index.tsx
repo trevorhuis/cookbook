@@ -25,7 +25,7 @@ export async function action({ request }: ActionFunctionArgs) {
     return { recipes, recipeCount, shouldShowPaginator: true };
   }
 
-  const recipes = await Server.recipeUseCase.searchRecipes(
+  const { recipes } = await Server.recipeUseCase.searchRecipes(
     values.searchText as string,
   );
   return { recipes, recipeCount: 1, shouldShowPaginator: false };
@@ -36,7 +36,7 @@ export default function RecipesPage() {
   const actionData = useActionData<typeof action>();
 
   if (actionData) {
-    recipes = actionData.recipes;
+    recipes = actionData.recipes!;
     recipeCount = actionData.recipeCount;
   }
 

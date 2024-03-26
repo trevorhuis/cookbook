@@ -45,7 +45,15 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   try {
-    const user = await Server.authUseCase.verifyLogin(email, password);
+    const { success, user } = await Server.authUseCase.verifyLogin(
+      email,
+      password,
+    );
+
+    if (!success || !user) {
+      throw new Error("Invalid email or password");
+    }
+
     return Server.authUseCase.createUserSession({
       redirectTo,
       remember: remember === "on" ? true : false,
