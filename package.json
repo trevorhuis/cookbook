@@ -10,7 +10,7 @@
     "start": "remix-serve ./build/server/index.js",
     "format": "prettier --write .",
     "coverage": "vitest --ui --coverage.enabled=true --coverage.exclude='build/**' --coverage.exclude='**/*.config.*s' --coverage.exclude='**/.eslintrc.cjs' --coverage.exclude='**/server/db/**'",
-    "test": "vitest --silent",
+    "test": "vitest",
     "typecheck": "tsc",
     "db:migrate": "npx tsx app/server/db/migrate.ts",
     "db:seed": "npx tsx app/server/db/seed.ts",
@@ -32,6 +32,7 @@
     "drizzle-zod": "^0.5.1",
     "isbot": "^4.1.0",
     "lodash": "^4.17.21",
+    "pino": "^8.19.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "uuid": "^9.0.1"

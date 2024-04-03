@@ -2,19 +2,7 @@ import { faker } from "@faker-js/faker";
 import { expect, test, vi } from "vitest";
 import { RecipeUseCase } from "~/server/recipes/recipe.useCase";
 import { createSlug } from "~/utils";
-
-function createFakeRecipe() {
-  return {
-    title: faker.lorem.words(3),
-    description: faker.lorem.paragraph(),
-    prepTime: faker.number.int(60),
-    cookTime: faker.number.int(60),
-    servings: faker.number.int(10),
-    steps: [faker.lorem.words(3)],
-    ingredients: [faker.lorem.words(3)],
-    tags: [faker.lorem.words(3)],
-  };
-}
+import { createFakeRecipe } from "./testUtils";
 
 function createFakeForm() {
   const formData = new FormData();

@@ -1,4 +1,4 @@
-import { createSlug } from "~/utils";
+import { createSlug, logger } from "~/utils";
 
 import {
   InsertRecipeIngredientSchema,
@@ -1053,7 +1053,7 @@ import { RecipeWriteDao } from "../recipes/recipe.dao";
     },
   ];
 
-  console.log("Seed starting ...");
+  logger.info("Seed starting ...");
 
   const recipesWriteDao = new RecipeWriteDao();
 
@@ -1091,6 +1091,6 @@ import { RecipeWriteDao } from "../recipes/recipe.dao";
 
     await recipesWriteDao.insertRecipeIngredients(insertRecipeIngredients);
 
-    console.log("Seed finished.");
+    logger.info("Seed finished.");
   });
 })();

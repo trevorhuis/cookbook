@@ -16,7 +16,7 @@ export class UserUseCase {
       const user = await this.userReadDao.selectUserByEmail(email);
       return { success: true, user };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -44,7 +44,7 @@ export class UserUseCase {
         userEmail: data.email,
       };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }

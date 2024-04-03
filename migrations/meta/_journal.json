@@ -15,6 +15,20 @@
       "when": 1709765810363,
       "tag": "0001_wandering_supernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711493483480,
+      "tag": "0002_hot_blindfold",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1711493488567,
+      "tag": "0003_fearless_the_call",
+      "breakpoints": true
     }
   ]
 }

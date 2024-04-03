@@ -1,8 +1,8 @@
-export type RecipeFormErrorProps = {
+export type FormErrorProps = {
   errors: string[];
 };
 
-export default function RecipeFormError(props: RecipeFormErrorProps) {
+export default function FormError(props: FormErrorProps) {
   const { errors } = props;
 
   return (

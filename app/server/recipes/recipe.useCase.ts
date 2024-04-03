@@ -1,4 +1,4 @@
-import { createSlug } from "~/utils";
+import { createSlug, logger } from "~/utils";
 import { RecipeReadDao, RecipeWriteDao } from "./recipe.dao";
 import {
   RecipeSearchArraySchema,
@@ -21,7 +21,7 @@ export class RecipeUseCase {
       const recipe = await this.recipeReadDao.selectRecipeById(recipeId);
       return { success: true, recipe };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -34,7 +34,7 @@ export class RecipeUseCase {
     try {
       return await this.recipeReadDao.selectRandomRecipes(count);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return [];
     }
   }
@@ -43,7 +43,7 @@ export class RecipeUseCase {
     try {
       return await this.recipeReadDao.selectAllRecipesPaginate(limit, offset);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return [];
     }
   }
@@ -70,7 +70,7 @@ export class RecipeUseCase {
       this.createRecipeIngredients(recipeId, data.ingredients);
       return { success: true, recipeId, recipeSlug: slug };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -83,7 +83,7 @@ export class RecipeUseCase {
       await this.recipeWriteDao.deleteRecipe(recipeId);
       return await this.createRecipe(recipe);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -93,7 +93,7 @@ export class RecipeUseCase {
       await this.recipeWriteDao.deleteRecipe(recipeId);
       return { success: true };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -143,7 +143,7 @@ export class RecipeUseCase {
     // try {
     //   images = JSON.parse(values.imageUrls as string) as string[];
     // } catch {
-    //   console.log("unable to parse images");
+    //   logger.error("unable to parse images");
     // }
 
     if (values.recipeId !== undefined) {
@@ -251,7 +251,7 @@ export class RecipeUseCase {
       const parsedRows = await RecipeSearchArraySchema.parseAsync(searchResult);
       return { success: true, recipes: parsedRows };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }

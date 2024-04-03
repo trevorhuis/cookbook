@@ -13,3 +13,9 @@ export const selectMenuRecipeSchema = createSelectSchema(menuRecipes);
 
 export type InsertMenuRecipeSchema = z.infer<typeof insertMenuRecipeSchema>;
 export type SelectMenuRecipeSchema = z.infer<typeof selectMenuRecipeSchema>;
+
+export type SaveMenuSchema = {
+  title: string;
+  description: string;
+  recipes: number[];
+};

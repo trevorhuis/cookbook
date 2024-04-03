@@ -6,8 +6,8 @@ import {
 } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import { useState } from "react";
-import RecipeForm from "~/components/recipeForm";
-import RecipeFormError from "~/components/recipeForm/recipeFormError";
+import RecipeForm from "~/components/form/recipeForm";
+import RecipeFormError from "~/components/form/FormError";
 import Server from "~/server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
