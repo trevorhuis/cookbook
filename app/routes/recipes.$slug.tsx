@@ -5,7 +5,7 @@ import {
 } from "@remix-run/node";
 import { Form, Link, useLoaderData, useSubmit } from "@remix-run/react";
 
-import DeleteRecipeModal from "~/components/deleteModal";
+import DeleteModal from "~/components/deleteModal";
 import { useState } from "react";
 import Server from "~/server";
 
@@ -112,7 +112,7 @@ const Recipe = () => {
                 </button>
               </div>
             )}
-            <DeleteRecipeModal
+            <DeleteModal
               open={openDelete}
               setOpen={setOpenDelete}
               itemToDelete={"Recipe"}

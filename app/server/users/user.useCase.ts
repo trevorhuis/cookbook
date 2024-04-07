@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { UserReadDao, UserWriteDao } from "~/server/users/user.dao";
 import { InsertUserSchema, SelectUserSchema } from "./user.dataclass";
+import { logger } from "~/utils";
 
 export class UserUseCase {
   userWriteDao: UserWriteDao;
@@ -16,7 +17,7 @@ export class UserUseCase {
       const user = await this.userReadDao.selectUserByEmail(email);
       return { success: true, user };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -44,7 +45,7 @@ export class UserUseCase {
         userEmail: data.email,
       };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }

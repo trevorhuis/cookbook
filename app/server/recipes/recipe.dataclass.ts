@@ -54,11 +54,3 @@ export type SaveRecipeSchema = {
   cookTime: number | null;
   servings: number | null;
 };
-
-export const RecipeSearchSchema = z.object({
-  slug: z.string(),
-  title: z.string(),
-  description: z.string(),
-});
-
-export const RecipeSearchArraySchema = z.array(RecipeSearchSchema);

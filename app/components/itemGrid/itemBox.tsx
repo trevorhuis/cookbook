@@ -1,18 +1,16 @@
 import { Link } from "@remix-run/react";
+import { SearchResult } from "~/server/types/search";
 
 interface ItemBoxProps {
-  item: {
-    slug: string;
-    description: string;
-    title: string;
-  };
+  item: SearchResult;
+  itemType: "recipes" | "menus";
 }
 
 export default function ItemBox(props: ItemBoxProps) {
-  const { item } = props;
+  const { item, itemType } = props;
 
   return (
-    <Link to={`/recipes/${item.slug}`}>
+    <Link to={`/${itemType}/${item.slug}`}>
       <div className="flex flex-1 flex-col p-6 min-h-32 shadow-2xl">
         <p className="text-lg font-medium text-gray-900 border-b-2 pb-2">
           {item.title}

@@ -2,14 +2,14 @@ import { type Dispatch, Fragment, type SetStateAction, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
-interface DeleteRecipeModalProps {
+interface DeleteModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   itemToDelete: string;
   handleDelete: () => void;
 }
 
-export default function DeleteRecipeModal(props: DeleteRecipeModalProps) {
+export default function DeleteModal(props: DeleteModalProps) {
   const { open, setOpen, itemToDelete, handleDelete } = props;
   const cancelButtonRef = useRef(null);
 

@@ -8,7 +8,7 @@ import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import Server from "~/server";
 
-import { safeRedirect, validateEmail } from "~/utils";
+import { safeRedirect } from "~/utils";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const userId = await Server.authUseCase.getUserId(request);
@@ -23,7 +23,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
   const remember = formData.get("remember");
 
-  if (!validateEmail(email)) {
+  if (!Server.authUseCase.validateEmail(email)) {
     return json(
       { errors: { email: "Email is invalid", password: null } },
       { status: 400 },

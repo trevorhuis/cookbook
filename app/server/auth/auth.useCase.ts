@@ -7,6 +7,7 @@ import {
 import bcrypt from "bcryptjs";
 
 import { AuthReadDao } from "./auth.dao";
+import { logger } from "~/utils";
 
 export class AuthUseCase {
   authReadDao: AuthReadDao;
@@ -118,7 +119,7 @@ export class AuthUseCase {
 
       return { success: true, user: userWithoutPassword };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }

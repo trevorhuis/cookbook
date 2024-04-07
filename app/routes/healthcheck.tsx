@@ -1,6 +1,7 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import Server from "~/server";
+import { logger } from "~/utils";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const host =
@@ -18,7 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     ]);
     return new Response("OK");
   } catch (error: unknown) {
-    console.log("healthcheck ❌", { error });
+    logger.info("healthcheck ❌", { error });
     return new Response("ERROR", { status: 500 });
   }
 }

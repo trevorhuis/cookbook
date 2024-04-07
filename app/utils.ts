@@ -1,7 +1,7 @@
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
 import _ from "lodash";
-import { SelectUserSchema } from "./server/users/user.dataclass";
+import pino from "pino";
 
 const DEFAULT_REDIRECT = "/";
 
@@ -44,33 +44,8 @@ export function useMatchesData(
   return route?.data;
 }
 
-// eslint-disable-next-line
-function isUser(user: any): user is SelectUserSchema {
-  return user && typeof user === "object" && typeof user.email === "string";
-}
-
-export function useOptionalUser(): SelectUserSchema | undefined {
-  const data = useMatchesData("root");
-  if (!data || !isUser(data.user)) {
-    return undefined;
-  }
-  return data.user;
-}
-
-export function useUser(): SelectUserSchema {
-  const maybeUser = useOptionalUser();
-  if (!maybeUser) {
-    throw new Error(
-      "No user found in root loader, but user is required by useUser. If user is optional, try useOptionalUser instead.",
-    );
-  }
-  return maybeUser;
-}
-
-export function validateEmail(email: unknown): email is string {
-  return typeof email === "string" && email.length > 3 && email.includes("@");
-}
-
 export function createSlug(title: string) {
   return _.kebabCase(title);
 }
+
+export const logger = pino();

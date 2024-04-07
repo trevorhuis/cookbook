@@ -1,10 +1,11 @@
-import { createSlug } from "~/utils";
+import { createSlug, logger } from "~/utils";
 
 import {
   InsertRecipeIngredientSchema,
   InsertRecipeStepSchema,
 } from "~/server/recipes/recipe.dataclass";
 import { RecipeWriteDao } from "../recipes/recipe.dao";
+import { UserUseCase } from "../users/user.useCase";
 
 (async () => {
   const recipesData = [
@@ -1053,7 +1054,7 @@ import { RecipeWriteDao } from "../recipes/recipe.dao";
     },
   ];
 
-  console.log("Seed starting ...");
+  logger.info("Seed starting ...");
 
   const recipesWriteDao = new RecipeWriteDao();
 
@@ -1090,7 +1091,13 @@ import { RecipeWriteDao } from "../recipes/recipe.dao";
     );
 
     await recipesWriteDao.insertRecipeIngredients(insertRecipeIngredients);
-
-    console.log("Seed finished.");
   });
+
+  const userUseCase = new UserUseCase();
+  await userUseCase.createUser({
+    email: "test@email.com",
+    password: "password",
+    userType: "OWNER",
+  });
+  logger.info("Seed finished.");
 })();

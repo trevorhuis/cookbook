@@ -48,13 +48,13 @@ export default function RecipesPage() {
       <Form method="post">
         <input name="page" value={page} hidden readOnly />
         <input name="searchText" value={searchText} hidden readOnly />
-        <SearchBar setSearchText={setSearchText} page={page} />
+        <SearchBar setSearchText={setSearchText} />
 
         {recipeCount === 0 && <p className="mt-6 text-xl">No recipes found</p>}
         {recipeCount > 0 && (
           <>
             <div className="mt-6 py-4">
-              <ItemGrid items={recipes} />
+              <ItemGrid items={recipes} itemType="recipes" />
             </div>
 
             {searchText === "" && recipes.length > 0 && (

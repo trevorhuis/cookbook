@@ -1,11 +1,8 @@
-import { createSlug } from "~/utils";
+import { createSlug, logger } from "~/utils";
 import { RecipeReadDao, RecipeWriteDao } from "./recipe.dao";
-import {
-  RecipeSearchArraySchema,
-  SaveRecipeSchema,
-  SelectRecipeSchema,
-} from "./recipe.dataclass";
+import { SaveRecipeSchema, SelectRecipeSchema } from "./recipe.dataclass";
 import dayjs from "dayjs";
+import { SearchArraySchema } from "../types/search";
 
 export class RecipeUseCase {
   recipeReadDao: RecipeReadDao;
@@ -21,7 +18,7 @@ export class RecipeUseCase {
       const recipe = await this.recipeReadDao.selectRecipeById(recipeId);
       return { success: true, recipe };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -34,7 +31,7 @@ export class RecipeUseCase {
     try {
       return await this.recipeReadDao.selectRandomRecipes(count);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return [];
     }
   }
@@ -43,7 +40,7 @@ export class RecipeUseCase {
     try {
       return await this.recipeReadDao.selectAllRecipesPaginate(limit, offset);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return [];
     }
   }
@@ -70,7 +67,7 @@ export class RecipeUseCase {
       this.createRecipeIngredients(recipeId, data.ingredients);
       return { success: true, recipeId, recipeSlug: slug };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -83,7 +80,7 @@ export class RecipeUseCase {
       await this.recipeWriteDao.deleteRecipe(recipeId);
       return await this.createRecipe(recipe);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -93,7 +90,7 @@ export class RecipeUseCase {
       await this.recipeWriteDao.deleteRecipe(recipeId);
       return { success: true };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
@@ -143,7 +140,7 @@ export class RecipeUseCase {
     // try {
     //   images = JSON.parse(values.imageUrls as string) as string[];
     // } catch {
-    //   console.log("unable to parse images");
+    //   logger.error("unable to parse images");
     // }
 
     if (values.recipeId !== undefined) {
@@ -248,10 +245,10 @@ export class RecipeUseCase {
   async searchRecipes(query: string) {
     try {
       const searchResult = await this.recipeReadDao.queryRecipes(query);
-      const parsedRows = await RecipeSearchArraySchema.parseAsync(searchResult);
+      const parsedRows = await SearchArraySchema.parseAsync(searchResult);
       return { success: true, recipes: parsedRows };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       return { success: false };
     }
   }
