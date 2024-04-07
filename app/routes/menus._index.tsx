@@ -7,12 +7,9 @@ import SearchBar from "~/components/searchBar";
 import Server from "~/server";
 
 export async function loader() {
-  const { success, menus } = await Server.menusUseCase.getPaginatedMenus(8, 0);
+  const { menus } = await Server.menusUseCase.getPaginatedMenus(8, 0);
   const menuCount = await Server.menusUseCase.getMenuCount();
 
-  if (!success || !menus) {
-    return { error: "Error fetching menus" };
-  }
   return { menus, menuCount, error: null };
 }
 
@@ -36,14 +33,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function MenusPage() {
-  const loaderData = useLoaderData<typeof loader>();
+  let { menus, menuCount } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-
-  if (loaderData.error) {
-    return <div>{loaderData.error}</div>;
-  } else {
-    let { menus, menuCount } = loaderData;
-  }
 
   if (actionData) {
     menus = actionData.menus!;
@@ -58,20 +49,22 @@ export default function MenusPage() {
       <Form method="post">
         <input name="page" value={page} hidden readOnly />
         <input name="searchText" value={searchText} hidden readOnly />
-        <SearchBar setSearchText={setSearchText} page={page} />
+        <SearchBar setSearchText={setSearchText} />
 
-        {menuCount === 0 && <p className="mt-6 text-xl">No menus found</p>}
-        {menuCount > 0 && (
-          <>
-            <div className="mt-6 py-4">
-              <ItemGrid items={menus} />
-            </div>
+        <div className="m-4">
+          {menuCount === 0 && <p className="mt-6 text-xl">No menus found</p>}
+          {menuCount > 0 && (
+            <>
+              <div className="mt-6 py-4">
+                <ItemGrid items={menus} itemType="menus" />
+              </div>
 
-            {searchText === "" && menus.length > 0 && (
-              <Paginator page={page} setPage={setPage} length={menuCount} />
-            )}
-          </>
-        )}
+              {searchText === "" && menus.length > 0 && (
+                <Paginator page={page} setPage={setPage} length={menuCount} />
+              )}
+            </>
+          )}
+        </div>
       </Form>
     </div>
   );

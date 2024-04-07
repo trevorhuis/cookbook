@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { UserReadDao, UserWriteDao } from "~/server/users/user.dao";
 import { InsertUserSchema, SelectUserSchema } from "./user.dataclass";
+import { logger } from "~/utils";
 
 export class UserUseCase {
   userWriteDao: UserWriteDao;

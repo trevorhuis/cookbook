@@ -20,6 +20,11 @@ export default function NavBar(props: NavBarProps) {
       href: "/recipes",
       current: navigation.location?.pathname === "/recipes",
     },
+    {
+      name: "Search Menus",
+      href: "/menus",
+      current: navigation.location?.pathname === "/menus",
+    },
   ];
 
   if (isOwner) {
@@ -27,6 +32,12 @@ export default function NavBar(props: NavBarProps) {
       name: "Create Recipe",
       href: "/recipes/create",
       current: navigation.location?.pathname === "/recipes/create",
+    });
+
+    routes.push({
+      name: "Create Menu",
+      href: "/menus/create",
+      current: navigation.location?.pathname === "/menus/create",
     });
   }
 

@@ -1,6 +1,7 @@
 import { createSlug, logger } from "~/utils";
 import { MenuReadDao, MenuWriteDao } from "./menu.dao";
 import { SaveMenuSchema } from "./menu.dataclass";
+import { SearchArraySchema } from "../types/search";
 
 export class MenuUseCase {
   menuReadDao: MenuReadDao;
@@ -49,14 +50,14 @@ export class MenuUseCase {
       };
     } catch (error) {
       logger.error(error);
-      return { success: false };
+      return { success: false, menus: [] };
     }
   }
 
   async searchMenus(query: string) {
     try {
-      const menus = await this.menuReadDao.searchMenus(query);
-
+      const searchResult = await this.menuReadDao.searchMenus(query);
+      const menus = await SearchArraySchema.parseAsync(searchResult);
       return {
         success: true,
         menus,
@@ -85,7 +86,7 @@ export class MenuUseCase {
         await this.menuWriteDao.addRecipeToMenu({ menuId, recipeId });
       }
 
-      return { success: true, menuSlug: slug };
+      return { success: true, menuSlug: slug, menuId };
     } catch (error) {
       logger.error(error);
       return { success: false };
@@ -93,6 +94,7 @@ export class MenuUseCase {
   }
 
   async addRecipeToMenu(menuId: number, recipeId: number) {
+    logger.info(`Adding recipe ${recipeId} to menu ${menuId}`);
     try {
       await this.menuWriteDao.addRecipeToMenu({ menuId, recipeId });
       return { success: true };
@@ -115,6 +117,8 @@ export class MenuUseCase {
   menuFormValidator(form: FormData) {
     const { ...values } = Object.fromEntries(form);
 
+    logger.info(values);
+
     let menuId = null;
     const errors: string[] = [];
 
@@ -124,7 +128,7 @@ export class MenuUseCase {
       const key = property as string;
       const value = values[property] as string;
       const inputs = key.split("_");
-      if (inputs[0] === "recipe") recipes.push(parseInt(value));
+      if (inputs[0] === "recipeMenu") recipes.push(parseInt(value));
     }
 
     if (values.menuId !== undefined) {

@@ -61,6 +61,7 @@ export class MenuReadDao {
   async selectMenuRecipes(id: SelectMenuSchema["id"]) {
     const result = await db
       .select({
+        id: recipes.id,
         slug: recipes.slug,
         title: recipes.title,
         description: recipes.description,
@@ -75,6 +76,7 @@ export class MenuReadDao {
   async selectAllMenusPaginate(count: number, offset: number) {
     const result = await db
       .select({
+        id: menus.id,
         slug: menus.slug,
         title: menus.title,
         description: menus.description,
@@ -100,7 +102,7 @@ export class MenuReadDao {
   async searchMenus(query: string) {
     const menusResult = await db.run(
       sql`
-        select slug, title, description from menu where slug in (
+        select id, slug, title, description from menu where slug in (
           select slug from menu_search WHERE menu_search MATCH lower(${query})
           UNION
           select slug from menu where id in (

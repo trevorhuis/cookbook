@@ -6,6 +6,7 @@ import { db } from "~/server/db/db";
 import { menus } from "~/server/db/schema/menu";
 import { recipes } from "~/server/db/schema/recipe";
 import { users } from "~/server/db/schema/user";
+import { logger } from "~/utils";
 
 installGlobals();
 

@@ -5,6 +5,7 @@ import {
   InsertRecipeStepSchema,
 } from "~/server/recipes/recipe.dataclass";
 import { RecipeWriteDao } from "../recipes/recipe.dao";
+import { UserUseCase } from "../users/user.useCase";
 
 (async () => {
   const recipesData = [
@@ -1090,7 +1091,13 @@ import { RecipeWriteDao } from "../recipes/recipe.dao";
     );
 
     await recipesWriteDao.insertRecipeIngredients(insertRecipeIngredients);
-
-    logger.info("Seed finished.");
   });
+
+  const userUseCase = new UserUseCase();
+  await userUseCase.createUser({
+    email: "test@email.com",
+    password: "password",
+    userType: "OWNER",
+  });
+  logger.info("Seed finished.");
 })();

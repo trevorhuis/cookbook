@@ -4,6 +4,10 @@ import {
   TitleInput,
   // ImagesInput,
 } from "../inputs";
+import SearchBar from "~/components/searchBar";
+import RecipeList from "./recipeListView";
+import { SearchResult } from "~/server/types/search";
+import CancelSaveButtons from "../cancelSaveButtons";
 
 type MenuFormProps = {
   menuId: number | null;
@@ -11,10 +15,24 @@ type MenuFormProps = {
   setTitle: (title: string) => void;
   description: string;
   setDescription: (description: string) => void;
+  searchText: string;
+  setSearchText: (searchText: string) => void;
+  recipeSearchResults: SearchResult[];
+  selectedRecipes: SearchResult[];
 };
 
 export default function MenuForm(props: MenuFormProps) {
-  const { menuId, description, setDescription, title, setTitle } = props;
+  const {
+    menuId,
+    description,
+    setDescription,
+    title,
+    setTitle,
+    searchText,
+    setSearchText,
+    recipeSearchResults,
+    selectedRecipes,
+  } = props;
 
   return (
     <Form
@@ -32,26 +50,27 @@ export default function MenuForm(props: MenuFormProps) {
             description={description}
             setDescription={setDescription}
           />
+
+          <div className="col-span-full mt-1">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Selected Recipes
+            </h2>
+            {selectedRecipes !== null && (
+              <RecipeList recipes={selectedRecipes} showButtons={false} />
+            )}
+          </div>
+
+          <div className="col-span-full mt-1">
+            <input name="searchText" value={searchText} hidden readOnly />
+            <SearchBar setSearchText={setSearchText} />
+
+            {recipeSearchResults !== null && (
+              <RecipeList recipes={recipeSearchResults} showButtons={true} />
+            )}
+          </div>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-x-2 border-t border-gray-900/10 px-4 py-4 sm:px-8">
-        <button
-          type="submit"
-          name="_action"
-          value="cancel"
-          className="m-2 inline-flex items-center rounded-md border border-transparent bg-gray-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          name="_action"
-          value="save"
-          className="rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
-        >
-          Save
-        </button>
-      </div>
+      <CancelSaveButtons />
     </Form>
   );
 }

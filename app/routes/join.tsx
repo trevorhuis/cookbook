@@ -43,8 +43,9 @@ export async function action({ request }: ActionFunctionArgs) {
     );
   }
 
-  const existingUser = await Server.usersUseCase.getUserByEmail(email);
-  if (existingUser) {
+  const userSearch = await Server.usersUseCase.getUserByEmail(email);
+
+  if (userSearch.user) {
     return json(
       {
         errors: {

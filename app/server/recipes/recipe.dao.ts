@@ -126,6 +126,7 @@ export class RecipeReadDao {
   async selectAllRecipesPaginate(limit: number, offset: number) {
     const recipesResult = await db
       .select({
+        id: recipes.id,
         slug: recipes.slug,
         title: recipes.title,
         description: recipes.description,
@@ -161,7 +162,7 @@ export class RecipeReadDao {
 
   async queryRecipes(query: string) {
     const recipesResult = await db.run(
-      sql`select slug, title, description from recipe where slug in (select slug from recipe_search WHERE recipe_search MATCH lower(${query}));`,
+      sql`select id, slug, title, description from recipe where slug in (select slug from recipe_search WHERE recipe_search MATCH lower(${query}));`,
     );
 
     return recipesResult.rows;

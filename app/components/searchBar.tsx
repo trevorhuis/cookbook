@@ -1,6 +1,5 @@
 type searchBarProps = {
   setSearchText: (searchText: string) => void;
-  page: number;
 };
 
 export default function SearchBar(props: searchBarProps) {
@@ -29,6 +28,8 @@ export default function SearchBar(props: searchBarProps) {
       <div className="mt-5 w-full md:basis-1/6">
         <button
           type="submit"
+          name="_action"
+          value="searchRecipes"
           className="w-full rounded-md bg-teal-600 px-3 py-2 font-medium text-white shadow-sm"
         >
           Search

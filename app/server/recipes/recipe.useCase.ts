@@ -1,11 +1,8 @@
 import { createSlug, logger } from "~/utils";
 import { RecipeReadDao, RecipeWriteDao } from "./recipe.dao";
-import {
-  RecipeSearchArraySchema,
-  SaveRecipeSchema,
-  SelectRecipeSchema,
-} from "./recipe.dataclass";
+import { SaveRecipeSchema, SelectRecipeSchema } from "./recipe.dataclass";
 import dayjs from "dayjs";
+import { SearchArraySchema } from "../types/search";
 
 export class RecipeUseCase {
   recipeReadDao: RecipeReadDao;
@@ -248,7 +245,7 @@ export class RecipeUseCase {
   async searchRecipes(query: string) {
     try {
       const searchResult = await this.recipeReadDao.queryRecipes(query);
-      const parsedRows = await RecipeSearchArraySchema.parseAsync(searchResult);
+      const parsedRows = await SearchArraySchema.parseAsync(searchResult);
       return { success: true, recipes: parsedRows };
     } catch (error) {
       logger.error(error);

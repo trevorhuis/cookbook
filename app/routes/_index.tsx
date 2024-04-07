@@ -33,7 +33,7 @@ export default function Index() {
         </h1>
       </div>
       <div className="mt-8">
-        <ItemGrid items={recipes} />
+        <ItemGrid items={recipes} itemType="recipes" />
       </div>
     </div>
   );
