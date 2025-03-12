@@ -4,11 +4,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  json,
+  LoaderFunctionArgs,
   useLoaderData,
-} from "@remix-run/react";
-import styles from "~/tailwind.css?url";
-import { LoaderFunctionArgs } from "@remix-run/node";
+} from "react-router";
+import styles from "~/tailwind.css";
 import NavBar from "./components/NavBar";
 import Server from "./server";
 
@@ -17,7 +16,7 @@ export const links = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  return json({ user: await Server.authUseCase.getUserFromRequest(request) });
+  return { user: await Server.authUseCase.getUserFromRequest(request) };
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {

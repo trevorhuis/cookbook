@@ -1,11 +1,11 @@
+import { useState } from "react";
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
-  json,
+  useActionData,
+  useLoaderData,
   redirect,
-} from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
+} from "react-router";
 import RecipeForm from "~/components/form/recipeForm";
 import RecipeFormError from "~/components/form/FormError";
 import Server from "~/server";
@@ -34,7 +34,7 @@ export async function action({ request }: ActionFunctionArgs) {
   if (recipeId === null) errors.push("Recipe not found to update.");
 
   if (errors.length > 0) {
-    return json({ errors });
+    return { errors };
   }
 
   const { success, recipeSlug } = await Server.recipeUseCase.updateRecipe(
@@ -43,9 +43,9 @@ export async function action({ request }: ActionFunctionArgs) {
   );
 
   if (success === false) {
-    return json({
+    return {
       errors: ["Error saving recipe to our database."],
-    });
+    };
   }
 
   return redirect(`/recipes/${recipeSlug}`);

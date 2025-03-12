@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { randomUUIDv7 } from "bun";
 
 type ImagesInputProps = {
   imageUrls: string[];
@@ -12,7 +12,7 @@ export default function ImagesInput(props: ImagesInputProps) {
     if (!e.target.files || e.target.files.length <= 0) return;
     const file = e.target.files[0];
     const filename = encodeURIComponent(
-      `${uuidv4()}.${file.name.split(".")[1]}`,
+      `${randomUUIDv7()}.${file.name.split(".")[1]}`,
     );
     const res = await fetch(`/api/upload-image?file=${filename}`);
     const data = await res.json();

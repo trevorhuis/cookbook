@@ -1,10 +1,10 @@
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
+import {
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  redirect,
+} from "react-router";
+import { Form, Link, useActionData, useSearchParams } from "react-router";
 import { useEffect, useRef } from "react";
 import Server from "~/server";
 
@@ -13,7 +13,7 @@ import { safeRedirect } from "~/utils";
 export async function loader({ request }: LoaderFunctionArgs) {
   const userId = await Server.authUseCase.getUserId(request);
   if (userId) return redirect("/");
-  return json({});
+  return {};
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -24,24 +24,15 @@ export async function action({ request }: ActionFunctionArgs) {
   const remember = formData.get("remember");
 
   if (!Server.authUseCase.validateEmail(email)) {
-    return json(
-      { errors: { email: "Email is invalid", password: null } },
-      { status: 400 },
-    );
+    return { errors: { email: "Email is invalid", password: null } };
   }
 
   if (typeof password !== "string" || password.length === 0) {
-    return json(
-      { errors: { email: null, password: "Password is required" } },
-      { status: 400 },
-    );
+    return { errors: { email: null, password: "Password is required" } };
   }
 
   if (password.length < 8) {
-    return json(
-      { errors: { email: null, password: "Password is too short" } },
-      { status: 400 },
-    );
+    return { errors: { email: null, password: "Password is too short" } };
   }
 
   try {
@@ -61,10 +52,7 @@ export async function action({ request }: ActionFunctionArgs) {
       userId: user.id,
     });
   } catch {
-    return json(
-      { errors: { email: "Invalid email or password", password: null } },
-      { status: 400 },
-    );
+    return { errors: { email: "Invalid email or password", password: null } };
   }
 }
 

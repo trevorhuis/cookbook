@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Form, Link, useNavigation } from "@remix-run/react";
+import { Form, Link, useNavigation } from "react-router";
 
 interface NavBarProps {
   isOwner: boolean;

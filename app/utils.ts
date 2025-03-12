@@ -1,6 +1,5 @@
-import { useMatches } from "@remix-run/react";
+import { useMatches } from "react-router";
 import { useMemo } from "react";
-import _ from "lodash";
 import pino from "pino";
 
 const DEFAULT_REDIRECT = "/";
@@ -45,7 +44,19 @@ export function useMatchesData(
 }
 
 export function createSlug(title: string) {
-  return _.kebabCase(title);
+  if (!title || typeof title !== "string") {
+    return "";
+  }
+
+  return (
+    title
+      // Split on whitespace, underscores, or capital letters
+      .match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
+      )
+      ?.map((word) => word.toLowerCase())
+      .join("-") || ""
+  );
 }
 
 export const logger = pino();

@@ -2,8 +2,8 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
   redirect,
-} from "@remix-run/node";
-import { Form, Link, useLoaderData, useSubmit } from "@remix-run/react";
+} from "react-router";
+import { Form, Link, useLoaderData, useSubmit } from "react-router";
 
 import DeleteModal from "~/components/deleteModal";
 import { useState } from "react";

@@ -1,10 +1,9 @@
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
-  json,
   redirect,
-} from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+  useActionData,
+} from "react-router";
 import { useState } from "react";
 import Server from "~/server";
 import MenuForm from "~/components/form/menuForm";
@@ -42,10 +41,10 @@ export async function action({ request }: ActionFunctionArgs) {
         const recipeId = parseInt(values[key] as string);
         const result = await Server.recipeUseCase.getRecipeById(recipeId);
         if (result.success === false) {
-          return json({
+          return {
             errors: ["Error adding recipe"],
             ...emptyMenuDefaults,
-          });
+          };
         }
         selectedRecipes.push(result.recipe);
       }
@@ -59,19 +58,19 @@ export async function action({ request }: ActionFunctionArgs) {
       const recipesResult = await Server.recipeUseCase.searchRecipes(search);
 
       if (recipesResult.success === false) {
-        return json({
+        return {
           errors: ["Error fetching recipes"],
           ...emptyMenuDefaults,
-        });
+        };
       }
-      return json({
+      return {
         errors: [] as string[],
         searchRecipes: recipesResult.recipes,
         selectedRecipes,
         title,
         description,
         searchText: search,
-      });
+      };
     }
 
     if (_action == "addRecipeToMenu") {
@@ -81,46 +80,46 @@ export async function action({ request }: ActionFunctionArgs) {
       );
       selectedRecipes.push(result.recipe);
       if (result.success === false) {
-        return json({ errors: ["Error adding recipe"], ...emptyMenuDefaults });
+        return { errors: ["Error adding recipe"], ...emptyMenuDefaults };
       }
 
-      return json({
+      return {
         errors: [],
         searchRecipes: [],
         selectedRecipes,
         title,
         description,
         searchText: "",
-      });
+      };
     }
   } catch (error) {
     logger.error(error);
-    return json({
+    return {
       errors: ["Error saving menu to our database."],
       ...emptyMenuDefaults,
-    });
+    };
   }
 
   if (_action == "save") {
     const { menu, errors } = Server.menusUseCase.menuFormValidator(formData);
 
     if (errors.length > 0) {
-      return json({ errors, ...emptyMenuDefaults });
+      return { errors, ...emptyMenuDefaults };
     }
 
     const { success, menuSlug } = await Server.menusUseCase.createMenu(menu);
 
     if (success === false) {
-      return json({
+      return {
         errors: ["Error saving menu to our database."],
         ...emptyMenuDefaults,
-      });
+      };
     }
 
     return redirect(`/menus/${menuSlug}`);
   }
 
-  return json({ errors: ["Invalid action"], ...emptyMenuDefaults });
+  return { errors: ["Invalid action"], ...emptyMenuDefaults };
 }
 
 export default function CreateMenuPage() {

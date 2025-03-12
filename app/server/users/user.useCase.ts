@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import { UserReadDao, UserWriteDao } from "~/server/users/user.dao";
 import { InsertUserSchema, SelectUserSchema } from "./user.dataclass";
 import { logger } from "~/utils";
@@ -28,7 +27,7 @@ export class UserUseCase {
 
       if (existingUser) return { success: false };
 
-      const hashedPassword = await bcrypt.hash(data.password, 10);
+      const hashedPassword = await Bun.password.hash(data.password);
 
       const userWithHashedPassword = {
         ...data,

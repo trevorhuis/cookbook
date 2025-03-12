@@ -1,4 +1,4 @@
-import { installGlobals } from "@remix-run/node";
+import { installGlobals } from "react-router/node";
 import "@testing-library/jest-dom/vitest";
 import { sql } from "drizzle-orm";
 import { beforeEach } from "vitest";

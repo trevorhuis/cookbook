@@ -1,6 +1,6 @@
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { json, type LoaderFunctionArgs } from "react-router/node";
 
 const S3 = new S3Client({
   region: "auto",

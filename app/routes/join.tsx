@@ -2,9 +2,14 @@ import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
+} from "react-router";
+import {
+  Form,
+  Link,
+  useActionData,
+  useSearchParams,
+  redirect,
+} from "react-router";
 import { useEffect, useRef } from "react";
 import Server from "~/server";
 import { InsertUserSchema } from "~/server/users/user.dataclass";
@@ -13,7 +18,7 @@ import { safeRedirect } from "~/utils";
 export async function loader({ request }: LoaderFunctionArgs) {
   const userId = await Server.authUseCase.getUserId(request);
   if (userId) return redirect("/");
-  return json({});
+  return {};
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -23,38 +28,26 @@ export async function action({ request }: ActionFunctionArgs) {
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
   if (!Server.authUseCase.validateEmail(email)) {
-    return json(
-      { errors: { email: "Email is invalid", password: null } },
-      { status: 400 },
-    );
+    return { errors: { email: "Email is invalid", password: null } };
   }
 
   if (typeof password !== "string" || password.length === 0) {
-    return json(
-      { errors: { email: null, password: "Password is required" } },
-      { status: 400 },
-    );
+    return { errors: { email: null, password: "Password is required" } };
   }
 
   if (password.length < 8) {
-    return json(
-      { errors: { email: null, password: "Password is too short" } },
-      { status: 400 },
-    );
+    return { errors: { email: null, password: "Password is too short" } };
   }
 
   const userSearch = await Server.usersUseCase.getUserByEmail(email);
 
   if (userSearch.user) {
-    return json(
-      {
-        errors: {
-          email: "A user already exists with this email",
-          password: null,
-        },
+    return {
+      errors: {
+        email: "A user already exists with this email",
+        password: null,
       },
-      { status: 400 },
-    );
+    };
   }
 
   const userInsert: InsertUserSchema = {
@@ -66,15 +59,12 @@ export async function action({ request }: ActionFunctionArgs) {
   const { success, userId } = await Server.usersUseCase.createUser(userInsert);
 
   if (!success || !userId) {
-    return json(
-      {
-        errors: {
-          email: "Failed to create a new user",
-          password: null,
-        },
+    return {
+      errors: {
+        email: "Failed to create a new user",
+        password: null,
       },
-      { status: 400 },
-    );
+    };
   }
 
   return Server.authUseCase.createUserSession({

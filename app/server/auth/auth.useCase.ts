@@ -3,8 +3,7 @@ import {
   SessionStorage,
   createCookieSessionStorage,
   redirect,
-} from "@remix-run/node";
-import bcrypt from "bcryptjs";
+} from "react-router";
 
 import { AuthReadDao } from "./auth.dao";
 import { logger } from "~/utils";
@@ -108,7 +107,7 @@ export class AuthUseCase {
       const user = await this.authReadDao.selectUserByEmail(email);
 
       if (!user) throw new Error("User not found");
-      const isValid = await bcrypt.compare(password, user.password);
+      const isValid = await Bun.password.verify(password, user.password);
 
       if (!isValid) {
         throw new Error("Invalid password");

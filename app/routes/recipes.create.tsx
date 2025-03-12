@@ -1,10 +1,9 @@
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
-  json,
+  useActionData,
   redirect,
-} from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+} from "react-router";
 import { useState } from "react";
 import RecipeForm from "~/components/form/recipeForm";
 import RecipeFormError from "~/components/form/FormError";
@@ -25,16 +24,16 @@ export async function action({ request }: ActionFunctionArgs) {
   const { recipe, errors } = Server.recipeUseCase.recipeFormValidator(formData);
 
   if (errors.length > 0) {
-    return json({ errors });
+    return { errors };
   }
 
   const { success, recipeSlug } =
     await Server.recipeUseCase.createRecipe(recipe);
 
   if (success === false) {
-    return json({
+    return {
       errors: ["Error saving recipe to our database."],
-    });
+    };
   }
 
   return redirect(`/recipes/${recipeSlug}`);
