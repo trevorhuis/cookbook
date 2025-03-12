@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
   useActionData,
   useLoaderData,
   redirect,
@@ -69,9 +69,6 @@ export default function EditRecipePage() {
   const [steps, setSteps] = useState<string[]>(
     data.steps.map((step) => step.step),
   );
-  // const [imageUrls, setImageUrls] = useState<string[]>(
-  //   data.images.map((image) => image.url),
-  // );
 
   return (
     <div className="mx-auto mt-16 max-w-2xl">

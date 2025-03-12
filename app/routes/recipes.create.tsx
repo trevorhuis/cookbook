@@ -1,13 +1,24 @@
 import {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
   useActionData,
   redirect,
+  Form,
 } from "react-router";
 import { useState } from "react";
-import RecipeForm from "~/components/form/recipeForm";
 import RecipeFormError from "~/components/form/FormError";
 import Server from "~/server";
+import {
+  DescriptionInput,
+  IngredientsInput,
+  StepsInput,
+  TagsInput,
+  TitleInput,
+  ServingsInput,
+} from "~/components/form/inputs";
+import CancelSaveButtons from "~/components/form/cancelSaveButtons";
+import CookTimeInput from "~/components/form/inputs/cookTimeInput";
+import PrepTimeInput from "~/components/form/inputs/prepTimeInput";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await Server.authUseCase.requireUserId(request);
@@ -58,27 +69,42 @@ export default function CreateRecipePage() {
         Your Next Masterpiece
       </h1>
       {actionData?.errors && <RecipeFormError errors={actionData?.errors} />}
-      <RecipeForm
-        recipeId={null}
-        title={title}
-        setTitle={setTitle}
-        description={description}
-        setDescription={setDescription}
-        servings={servings}
-        setServings={setServings}
-        cookTime={cookTime}
-        setCookTime={setCookTime}
-        prepTime={prepTime}
-        setPrepTime={setPrepTime}
-        tags={tags}
-        setTags={setTags}
-        ingredients={ingredients}
-        setIngredients={setIngredients}
-        steps={steps}
-        setSteps={setSteps}
-        // imageUrls={imageUrls}
-        // setImageUrls={setImageUrls}
-      />
+      <Form
+        method="POST"
+        className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+      >
+        {/* {recipeId !== null && (
+          <input type="hidden" name="recipeId" value={recipeId} />
+        )} */}
+        <div className="px-4 py-6 sm:p-8">
+          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <TitleInput title={title} setTitle={setTitle} />
+
+            <ServingsInput servings={servings} setServings={setServings} />
+
+            <PrepTimeInput prepTime={prepTime} setPrepTime={setPrepTime} />
+
+            <CookTimeInput cookTime={cookTime} setCookTime={setCookTime} />
+
+            <TagsInput tags={tags} setTags={setTags} />
+
+            {/* <ImagesInput imageUrls={imageUrls} setImageUrls={setImageUrls} /> */}
+
+            <DescriptionInput
+              description={description}
+              setDescription={setDescription}
+            />
+
+            <IngredientsInput
+              ingredients={ingredients}
+              setIngredients={setIngredients}
+            />
+
+            <StepsInput steps={steps} setSteps={setSteps} />
+          </div>
+        </div>
+        <CancelSaveButtons />
+      </Form>
     </div>
   );
 }

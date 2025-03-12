@@ -1,4 +1,3 @@
-import { installGlobals } from "react-router/node";
 import "@testing-library/jest-dom/vitest";
 import { sql } from "drizzle-orm";
 import { beforeEach } from "vitest";
@@ -7,8 +6,6 @@ import { menus } from "~/server/db/schema/menu";
 import { recipes } from "~/server/db/schema/recipe";
 import { users } from "~/server/db/schema/user";
 import { logger } from "~/utils";
-
-installGlobals();
 
 beforeEach(async () => {
   try {

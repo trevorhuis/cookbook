@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { SearchResult } from "~/server/types/search";
+import { type SearchResult } from "~/server/types/search";
 
 type RecipeListProps = {
   recipes: SearchResult[];

@@ -12,7 +12,7 @@ import {
 } from "react-router";
 import { useEffect, useRef } from "react";
 import Server from "~/server";
-import { InsertUserSchema } from "~/server/users/user.dataclass";
+import { type InsertUserSchema } from "~/server/users/user.dataclass";
 import { safeRedirect } from "~/utils";
 
 export async function loader({ request }: LoaderFunctionArgs) {

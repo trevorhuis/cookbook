@@ -1,15 +1,20 @@
 import {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
   redirect,
   useActionData,
 } from "react-router";
 import { useState } from "react";
 import Server from "~/server";
-import MenuForm from "~/components/form/menuForm";
 import { logger } from "~/utils";
 import FormError from "~/components/form/FormError";
-import { SearchResult } from "~/server/types/search";
+import { Form } from "react-router";
+import SearchBar from "~/components/searchBar";
+import { type SearchResult } from "~/server/types/search";
+import RecipeList from "~/components/form/menuForm/recipeListView";
+import CancelSaveButtons from "~/components/form/cancelSaveButtons";
+import DescriptionInput from "~/components/form/inputs/descriptionInput";
+import TitleInput from "~/components/form/inputs/titleInput";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await Server.authUseCase.requireUserId(request);
@@ -147,17 +152,45 @@ export default function CreateMenuPage() {
         Your Next Masterpiece
       </h1>
       {actionData !== undefined && <FormError errors={actionData?.errors} />}
-      <MenuForm
-        menuId={null}
-        title={title}
-        setTitle={setTitle}
-        description={description}
-        setDescription={setDescription}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        recipeSearchResults={recipeSearchResults}
-        selectedRecipes={selectedRecipes}
-      />
+      <Form
+        method="POST"
+        className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+      >
+        {/* {menuId !== null && (
+          <input type="hidden" name="menuId" value={menuId} />
+        )} */}
+        <div className="px-4 py-6 sm:p-8">
+          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <TitleInput title={title} setTitle={setTitle} />
+
+            {/* <ImagesInput imageUrls={imageUrls} setImageUrls={setImageUrls} /> */}
+
+            <DescriptionInput
+              description={description}
+              setDescription={setDescription}
+            />
+
+            <div className="col-span-full mt-1">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Selected Recipes
+              </h2>
+              {selectedRecipes !== null && (
+                <RecipeList recipes={selectedRecipes} showButtons={false} />
+              )}
+            </div>
+
+            <div className="col-span-full mt-1">
+              <input name="searchText" value={searchText} hidden readOnly />
+              <SearchBar setSearchText={setSearchText} />
+
+              {recipeSearchResults !== null && (
+                <RecipeList recipes={recipeSearchResults} showButtons={true} />
+              )}
+            </div>
+          </div>
+        </div>
+        <CancelSaveButtons />
+      </Form>
     </div>
   );
 }
