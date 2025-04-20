@@ -1,0 +1,15 @@
+<div class="page">
+    <% cache @recipe do %>
+        <h1>
+            <%= @recipe.name %>
+        </h1>
+        <%= image_tag @recipe.featured_image if @recipe.featured_image.attached? %>
+        <%= @recipe.content %>
+        <div class="spacer"></div>
+    <% end %>
+
+    <% if authenticated? %>
+    <%= link_to "Edit", edit_recipe_path(@recipe), class: "btn btn-primary" %>
+    <%= button_to "Delete", @recipe, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-secondary" %>
+    <% end %>
+</div>
