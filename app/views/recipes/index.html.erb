@@ -1,0 +1,28 @@
+
+<div class="page">
+  <h1 class="recipe__title">Recipes</h1>
+
+  <div id="recipes">
+    <div class="recipe__card__container">
+        <% @recipes.each do |recipe| %>
+            <div class="recipe__card">
+                <div class="recipe__card__title">
+                    <%= recipe.name %>
+                </div>
+                <%= link_to "View", recipe, class: "btn btn-secondary recipe__view_button" %>
+            </div>
+        <% end %>
+    </div>
+  </div>
+
+  <div class="spacer-2"></div>
+
+  <div class="recipe__pagination">
+      <div>
+          <%= link_to_previous_page @recipes, 'Previous Page', class: 'btn btn-secondary' %>
+      </div>
+      <div>
+          <%= link_to_next_page @recipes, 'Next Page', class: 'btn btn-secondary' %>
+      </div>
+  </div>
+</div>

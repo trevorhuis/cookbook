@@ -1,36 +1,24 @@
-# Welcome to Remix + Vite!
+# README
 
-📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-## Development
+Things you may want to cover:
 
-Run the Vite dev server:
+* Ruby version
 
-```shellscript
-npm run dev
-```
+* System dependencies
 
-## Deployment
+* Configuration
 
-First, build your app for production:
+* Database creation
 
-```sh
-npm run build
-```
+* Database initialization
 
-Then run the app in production mode:
+* How to run the test suite
 
-```sh
-npm start
-```
+* Services (job queues, cache servers, search engines, etc.)
 
-Now you'll need to pick a host to deploy it to.
+* Deployment instructions
 
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
+* ...

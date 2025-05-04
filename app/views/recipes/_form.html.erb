@@ -1,0 +1,25 @@
+<%= form_with model: recipe do |form| %>
+
+  <div>
+    <%= form.text_field :name, placeholder: "Enter recipe name" %>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div>
+    <%= form.rich_text_area :content %>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div>
+    <%= form.label :featured_image, style: "display: block" %>
+    <%= form.file_field :featured_image, accept: "image/*" %>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div>
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,49 @@
+.recipe__title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--main-color);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.recipe__card__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 20rem;
+}
+
+.recipe__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border: 2px solid var(--main-color);
+    margin: 0.5rem;
+    width: 8rem;
+    border-radius: 10px;
+    height: 10rem;
+}
+
+.recipe__card__title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--main-color);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.recipe__view_button {
+    width: 100%;
+}
+
+.recipe__pagination {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 36rem;
+}
+
+.recipe__pagination__button {
+    margin: 0 0.5rem;
+}

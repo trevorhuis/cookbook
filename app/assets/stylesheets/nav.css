@@ -1,0 +1,37 @@
+nav {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 1rem;
+
+    a {
+        color: var(--main-color);
+        background-color: var(--warm-cream);
+        text-decoration: none;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        border-color: var(--main-color);
+        border: 1px solid var(--main-color);
+
+        &:hover {
+            color: white;
+            background-color: var(--main-color);
+        }
+    }
+
+    button {
+        color: var(--main-color);
+        background-color: var(--warm-cream);
+        cursor: pointer;
+        text-decoration: none;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        border-color: var(--main-color);
+        border: 1px solid var(--main-color);
+
+        &:hover {
+            color: white;
+            background-color: var(--main-color);
+        }
+    }
+}
