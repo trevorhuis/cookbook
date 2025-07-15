@@ -10,8 +10,7 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -29,7 +28,7 @@
   <body>
     <nav>
       <div class="nav-container">
-        <%= link_to "My Cookbook", recipes_path, class: "nav-brand" %>
+        <%= link_to "Crystal's Cookbook", recipes_path, class: "nav-brand" %>
         <div class="nav-links">
           <%= link_to "Recipes", recipes_path, class: "nav-link" %>
           <% if authenticated? %>

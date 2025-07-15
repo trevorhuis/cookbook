@@ -1,11 +1,33 @@
 
 <div class="recipes-index">
   <header class="recipes-header">
-    <h1 class="recipes-title">My Recipe Collection</h1>
-    <p class="recipes-subtitle">Discover and organize your favorite recipes</p>
+    <h1 class="recipes-title">Recipe Collection</h1>
+    <p class="recipes-subtitle">Discover Crystal's favorite recipes</p>
+    
+    <div class="search-container">
+      <%= form_with url: recipes_path, method: :get, local: true, class: "search-form" do |form| %>
+        <div class="search-input-group">
+          <%= form.text_field :search, 
+                              value: @search_query, 
+                              placeholder: "Search recipes by name or ingredients...", 
+                              class: "search-input" %>
+          <%= form.submit "Search", class: "search-button" %>
+          <% if @search_query.present? %>
+            <%= link_to "Clear", recipes_path, class: "clear-search-button" %>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <% if @search_query.present? %>
+        <div class="search-results-info">
+          <span>Found <%= @recipes.total_count %> recipe<%= 's' unless @recipes.total_count == 1 %> for "<%= @search_query %>"</span>
+        </div>
+      <% end %>
+    </div>
+    
     <div class="recipes-stats">
       <span>📚</span>
-      <span><%= @recipes.total_count %> recipes</span>
+      <span><%= @recipes.total_count %> recipes<%= @search_query.present? ? " found" : "" %></span>
     </div>
   </header>
 

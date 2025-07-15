@@ -3,7 +3,8 @@ class RecipesController < ApplicationController
   before_action :set_recipe, only: %i[ show edit update destroy ]
 
   def index
-    @recipes = Recipe.page(params[:page]).per(8)
+    @recipes = Recipe.search(params[:search]).page(params[:page]).per(8)
+    @search_query = params[:search]
   end
 
   def show
@@ -44,6 +45,6 @@ class RecipesController < ApplicationController
     end
 
     def recipe_params
-      params.expect(recipe: [:name, :content, :featured_image])
+      params.expect(recipe: [ :name, :content, :featured_image ])
     end
 end

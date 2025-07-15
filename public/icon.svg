@@ -1,3 +1,29 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle for PWA standards -->
+  <circle cx="256" cy="256" r="256" fill="#e8f5e8"/>
+  
+  <!-- Book shadow -->
+  <path d="M140 420 L380 420 C390 420 400 410 400 400 L400 160 C400 150 390 140 380 140 L140 140 C130 140 120 150 120 160 L120 400 C120 410 130 420 140 420 Z" fill="#00000020"/>
+  
+  <!-- Main book cover -->
+  <path d="M130 410 L370 410 C380 410 390 400 390 390 L390 150 C390 140 380 130 370 130 L130 130 C120 130 110 140 110 150 L110 390 C110 400 120 410 130 410 Z" fill="#27ae60"/>
+  
+  <!-- Book spine highlight -->
+  <path d="M110 150 L110 390 C110 400 120 410 130 410 L140 410 L140 130 L130 130 C120 130 110 140 110 150 Z" fill="#1e8449"/>
+  
+  <!-- Book pages -->
+  <path d="M140 140 L375 140 L375 400 L140 400 Z" fill="#ffffff"/>
+  
+  <!-- Simple page lines -->
+  <line x1="160" y1="200" x2="350" y2="200" stroke="#ecf0f1" stroke-width="2"/>
+  <line x1="160" y1="250" x2="350" y2="250" stroke="#ecf0f1" stroke-width="2"/>
+  <line x1="160" y1="300" x2="350" y2="300" stroke="#ecf0f1" stroke-width="2"/>
+  <line x1="160" y1="350" x2="350" y2="350" stroke="#ecf0f1" stroke-width="2"/>
+  
+  <!-- Book binding rings -->
+  <circle cx="125" cy="180" r="4" fill="#2d5a32"/>
+  <circle cx="125" cy="220" r="4" fill="#2d5a32"/>
+  <circle cx="125" cy="260" r="4" fill="#2d5a32"/>
+  <circle cx="125" cy="300" r="4" fill="#2d5a32"/>
+  <circle cx="125" cy="340" r="4" fill="#2d5a32"/>
 </svg>
