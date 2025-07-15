@@ -1,28 +1,57 @@
 
-<div class="page">
-  <h1 class="recipe__title">Recipes</h1>
-
-  <div id="recipes">
-    <div class="recipe__card__container">
-        <% @recipes.each do |recipe| %>
-            <div class="recipe__card">
-                <div class="recipe__card__title">
-                    <%= recipe.name %>
-                </div>
-                <%= link_to "View", recipe, class: "btn btn-secondary recipe__view_button" %>
-            </div>
-        <% end %>
+<div class="recipes-index">
+  <header class="recipes-header">
+    <h1 class="recipes-title">My Recipe Collection</h1>
+    <p class="recipes-subtitle">Discover and organize your favorite recipes</p>
+    <div class="recipes-stats">
+      <span>📚</span>
+      <span><%= @recipes.total_count %> recipes</span>
     </div>
-  </div>
+  </header>
 
-  <div class="spacer-2"></div>
+  <% if @recipes.any? %>
+    <div class="recipes-grid" id="recipes">
+      <% @recipes.each do |recipe| %>
+        <article class="recipe-card">
+          <div class="recipe-card-image <%= 'has-image' if recipe.featured_image.attached? %>">
+            <% if recipe.featured_image.attached? %>
+              <%= image_tag recipe.featured_image, alt: recipe.name %>
+            <% end %>
+          </div>
+          
+          <div class="recipe-card-content">
+            <h2 class="recipe-card-title"><%= recipe.name %></h2>
+            
+            <div class="recipe-card-meta">
+              <span>Added <%= recipe.created_at.strftime("%b %d") %></span>
+              <% if recipe.updated_at != recipe.created_at %>
+                <span>Updated <%= recipe.updated_at.strftime("%b %d") %></span>
+              <% end %>
+            </div>
+            
+            <div class="recipe-card-actions">
+              <%= link_to "View Recipe", recipe, class: "recipe-card-button primary" %>
+              <% if authenticated? %>
+                <%= link_to "Edit", edit_recipe_path(recipe), class: "recipe-card-button secondary" %>
+              <% end %>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
 
-  <div class="recipe__pagination">
-      <div>
-          <%= link_to_previous_page @recipes, 'Previous Page', class: 'btn btn-secondary' %>
-      </div>
-      <div>
-          <%= link_to_next_page @recipes, 'Next Page', class: 'btn btn-secondary' %>
-      </div>
-  </div>
+    <div class="recipes-pagination">
+      <%= link_to_previous_page @recipes, '← Previous', class: 'pagination-button' %>
+      <%= link_to_next_page @recipes, 'Next →', class: 'pagination-button' %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-state-icon">🍽️</div>
+      <h2 class="empty-state-title">No recipes yet</h2>
+      <p class="empty-state-text">Start building your cookbook by adding your first recipe!</p>
+      <% if authenticated? %>
+        <%= link_to "Add Your First Recipe", new_recipe_path, class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  <% end %>
 </div>

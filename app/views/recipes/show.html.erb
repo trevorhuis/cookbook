@@ -1,15 +1,30 @@
-<div class="page">
+<div class="recipe-show">
     <% cache @recipe do %>
-        <h1>
-            <%= @recipe.name %>
-        </h1>
-        <%= image_tag @recipe.featured_image if @recipe.featured_image.attached? %>
-        <%= @recipe.content %>
-        <div class="spacer"></div>
+        <header class="recipe-header">
+            <h1 class="recipe-title"><%= @recipe.name %></h1>
+            <div class="recipe-meta">
+                <span>Created <%= @recipe.created_at.strftime("%B %d, %Y") %></span>
+                <% if @recipe.updated_at != @recipe.created_at %>
+                    <span>Updated <%= @recipe.updated_at.strftime("%B %d, %Y") %></span>
+                <% end %>
+            </div>
+        </header>
+
+        <% if @recipe.featured_image.attached? %>
+            <div class="recipe-image-container">
+                <%= image_tag @recipe.featured_image, alt: @recipe.name %>
+            </div>
+        <% end %>
+
+        <div class="recipe-content">
+            <%= @recipe.content %>
+        </div>
     <% end %>
 
     <% if authenticated? %>
-    <%= link_to "Edit", edit_recipe_path(@recipe), class: "btn btn-primary" %>
-    <%= button_to "Delete", @recipe, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-secondary" %>
+        <div class="recipe-actions">
+            <%= link_to "Edit Recipe", edit_recipe_path(@recipe), class: "btn btn-primary" %>
+            <%= button_to "Delete Recipe", @recipe, method: :delete, data: { turbo_confirm: "Are you sure you want to delete this recipe?" }, class: "btn btn-secondary" %>
+        </div>
     <% end %>
 </div>

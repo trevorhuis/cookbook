@@ -3,10 +3,12 @@
     --main-green: 64.02% 59.56 139.07;
     --dark-green: 46.32% 49.6 138.76;
     --light-green: 73.08% 62.46 122.23;
-    --warm-cream: 97.68% 11.98 91.84;
+    --pure-white: 100% 0 0;
+    --off-white: 98% 0 0;
     --earthy-brown: 39.85% 19.77 44.53;
     --soft-terracotta: 62.31% 50.08 25.7;
     --dark-gray: 27.97% 0 0;
+    --medium-gray: 60% 0 0;
     --light-gray: 94.1% 0 0;
     --accent-yellow: 82.1% 83.57 80.58;
 
@@ -14,6 +16,6 @@
     --main-color: lch(var(--main-green));
     --dark-color: lch(var(--dark-green));
     --light-color: lch(var(--light-green));
-    --background-color: lch(var(--warm-cream));
+    --background-color: lch(var(--pure-white));
     --text-color: lch(var(--dark-gray));
 }

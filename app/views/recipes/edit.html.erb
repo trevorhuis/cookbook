@@ -1,5 +1,20 @@
-<h1>Edit recipe</h1>
+<div class="recipe-form-container">
+  <header class="recipe-form-header">
+    <h1 class="recipe-form-title">Edit Recipe</h1>
+    <p class="recipe-form-subtitle">Update your recipe details and instructions</p>
+  </header>
 
-<%= render "form", recipe: @recipe %>
-<%= link_to "Cancel", recipes_path %>
-<%= link_to "Delete", recipe_path(@recipe), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+  <%= render "form", recipe: @recipe %>
+
+  <div class="recipe-form-danger-zone">
+    <h3 class="recipe-form-danger-title">Danger Zone</h3>
+    <p class="recipe-form-danger-text">
+      Deleting this recipe is permanent and cannot be undone. All associated data will be lost.
+    </p>
+    <%= button_to "Delete Recipe", 
+        recipe_path(@recipe), 
+        method: :delete, 
+        data: { turbo_confirm: "Are you sure you want to permanently delete this recipe? This action cannot be undone." },
+        class: "btn btn-danger" %>
+  </div>
+</div>

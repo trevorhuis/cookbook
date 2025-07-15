@@ -1,25 +1,50 @@
-<%= form_with model: recipe do |form| %>
+<%= form_with model: recipe, class: "recipe-form" do |form| %>
+  <% if recipe.errors.any? %>
+    <div class="flash-message flash-alert">
+      <h4><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h4>
+      <ul>
+        <% recipe.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-  <div>
-    <%= form.text_field :name, placeholder: "Enter recipe name" %>
+  <div class="recipe-form-group">
+    <%= form.label :name, "Recipe Name", class: "recipe-form-label" %>
+    <%= form.text_field :name, 
+        placeholder: "Enter a descriptive name for your recipe", 
+        class: "recipe-form-input",
+        required: true %>
+    <div class="recipe-form-help-text">Give your recipe a clear, memorable name</div>
   </div>
 
-  <div class="spacer"></div>
-
-  <div>
-    <%= form.rich_text_area :content %>
+  <div class="recipe-form-group">
+    <%= form.label :content, "Recipe Instructions", class: "recipe-form-label" %>
+    <%= form.rich_text_area :content, 
+        placeholder: "Write your recipe instructions here. You can format text, add lists, and more using the toolbar above.",
+        class: "recipe-form-textarea" %>
+    <div class="recipe-form-help-text">Include ingredients, instructions, cooking times, and any helpful tips</div>
   </div>
 
-  <div class="spacer"></div>
-
-  <div>
-    <%= form.label :featured_image, style: "display: block" %>
-    <%= form.file_field :featured_image, accept: "image/*" %>
+  <div class="recipe-form-group">
+    <%= form.label :featured_image, "Recipe Photo (Optional)", class: "recipe-form-label" %>
+    <%= form.file_field :featured_image, 
+        accept: "image/*", 
+        class: "recipe-form-file-input" %>
+    <div class="recipe-form-help-text">Upload a photo of your finished dish (JPG, PNG, or GIF)</div>
+    <% if recipe.featured_image.attached? %>
+      <div style="margin-top: 1rem;">
+        <p style="color: var(--main-color); font-weight: 500;">Current image:</p>
+        <%= image_tag recipe.featured_image, style: "max-width: 200px; border-radius: 0.5rem; border: 1px solid lch(var(--light-gray));" %>
+      </div>
+    <% end %>
   </div>
 
-  <div class="spacer"></div>
-
-  <div>
-    <%= form.submit class: "btn btn-primary" %>
+  <div class="recipe-form-actions">
+    <%= form.submit recipe.persisted? ? "Update Recipe" : "Create Recipe", 
+        class: "btn btn-primary" %>
+    <%= link_to "Cancel", recipe.persisted? ? recipe_path(recipe) : recipes_path, 
+        class: "btn btn-secondary" %>
   </div>
 <% end %>

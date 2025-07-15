@@ -1,11 +1,8 @@
-<div class="page">
-    <h1>Create a recipe</h1>
+<div class="recipe-form-container">
+  <header class="recipe-form-header">
+    <h1 class="recipe-form-title">Create New Recipe</h1>
+    <p class="recipe-form-subtitle">Share your culinary creation with detailed instructions and photos</p>
+  </header>
 
-    <div class="spacer"></div>
-
-    <%= render "form", recipe: @recipe %>
-
-    <div class="spacer"></div>
-
-    <%= link_to "Cancel", recipes_path, class: "btn btn-secondary" %>
+  <%= render "form", recipe: @recipe %>
 </div>

@@ -28,10 +28,18 @@
 
   <body>
     <nav>
-      <%= link_to "Recipes", recipes_path %>
-      <%= link_to "New Recipe", new_recipe_path %>
-      <%= link_to "Login", new_session_path unless authenticated? %>
-      <%= button_to "Logout", session_path, method: :delete if authenticated? %>
+      <div class="nav-container">
+        <%= link_to "My Cookbook", recipes_path, class: "nav-brand" %>
+        <div class="nav-links">
+          <%= link_to "Recipes", recipes_path, class: "nav-link" %>
+          <% if authenticated? %>
+            <%= link_to "New Recipe", new_recipe_path, class: "nav-link primary" %>
+            <%= button_to "Logout", session_path, method: :delete, class: "nav-button" %>
+          <% else %>
+            <%= link_to "Login", new_session_path, class: "nav-link primary" %>
+          <% end %>
+        </div>
+      </div>
     </nav>
     <main>
       <%= yield %>
